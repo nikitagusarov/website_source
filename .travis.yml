@@ -1,0 +1,38 @@
+os: linux
+language: r
+dist: xenial
+latex: false
+
+branches:
+  only:
+    - main
+
+cache:
+  packages: yes
+  directories:
+    - $HOME/bin
+
+before_install:
+  - Rscript -e 'install.packages("blogdown")'
+
+install:
+  - Rscript -e 'blogdown::install_hugo("0.87.0")'
+  - ls
+
+script:
+  - Rscript -e 'blogdown::build_site()'
+  - touch public/.nojekyll
+  - ls public -a
+
+deploy:
+  provider: pages
+  strategy: git
+  skip-cleanup: true
+  keep-history: true
+  github-token: $GITHUB_TOKEN
+  on:
+    branch: main
+  local-dir: public
+  fqdn: nikitagusarov.github.io
+  repo: nikitagusarov/nikitagusarov.github.io
+  target_branch: main
