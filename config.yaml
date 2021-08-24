@@ -1,0 +1,44 @@
+title: Welcome!
+baseURL: https://nikitagusarov.github.io/
+languageCode: en-us
+theme: gohugo-theme-ananke
+resourceDir: ../resources
+publishDir: public
+DefaultContentLanguage: en
+SectionPagesMenu: main
+Paginate: 3
+googleAnalytics: ''
+enableRobotsTXT: yes
+languages:
+  en:
+    contentDir: content/en
+    title: My blog
+    weight: 1
+sitemap:
+  changefreq: monthly
+  filename: sitemap.xml
+  priority: 0.5
+params:
+  background_color_class: bg-black
+  description: To this personnal and somewhat professional blog of a PhD student.
+  #facebook: ''
+  #favicon: ''
+  featured_image: /images/gohugo-default-sample-hero-image.jpg
+  github: ''
+  gitlab: ''
+  #instagram: ''
+  linkedin: ''
+  #mastodon: ''
+  recent_posts_number: 2
+  #rss: ''
+  site_logo: ''
+  #slack: ''
+  #stackoverflow: ''
+  #twitter: https://twitter.com/GoHugoIO
+  #youtube: ''
+ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+selfcontained: true
