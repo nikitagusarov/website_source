@@ -1,8 +1,11 @@
 ---
-description: "Welcome dear visitor!"
-featured_image: ""
 title: About
+description: Here you will find some more information about me
+featured_image: /images/default_x220.png
 ---
+
+My name is Nikita Gusarov and I'm currently doing my PhD at the University Grenoble Alpes located in France. 
+
 
 <!--
 {{< figure src="/images/Victor_Hugo-Hunchback.jpg" title="Illustration from Victor Hugo et son temps (1881)" >}}

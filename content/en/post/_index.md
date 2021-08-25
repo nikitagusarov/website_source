@@ -1,6 +1,5 @@
 ---
-date: "2017-03-02T12:00:00-05:00"
 title: Posts
+description: In this section you are welcome to find all my blogposts
+featured_image: /images/default_x220.png
 ---
-
-Welcome to the blogpost collection!

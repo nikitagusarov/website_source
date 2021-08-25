@@ -1,14 +1,13 @@
 ---
-description: All contact information in one place!
-#featured_image: images/notebook.jpg
+# description: nikita.gusarov@univ-grenoble-alpes.fr
+# featured_image: images/default_x220.png
 menu: main
-omit_header_text: true
 title: Contact
 type: page
+# omit_header_text: true
 ---
 
-<!-->
-This is an example of a custom shortcode that you can put right into your content. You will need to add a form action to the the shortcode to make it work. Check out [Formspree](https://formspree.io/) for a simple, free form service. 
+To contact me you may find me in [Matrix](), [VKontakte](https://vk.com/id38612036) and [Telegram]().
+Or you may just use the contact form below:
 
-{{< form-contact action="https://example.com"  >}}
--->
+{{< form-contact action="https://formspree.io/f/mqkwgvbp"  >}}

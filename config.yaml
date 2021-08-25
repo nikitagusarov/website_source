@@ -2,7 +2,7 @@ title: Welcome!
 baseURL: https://nikitagusarov.github.io/
 languageCode: en-us
 theme: gohugo-theme-ananke
-resourceDir: ../resources
+resourceDir: resources
 publishDir: public
 DefaultContentLanguage: en
 SectionPagesMenu: main
@@ -12,30 +12,34 @@ enableRobotsTXT: yes
 languages:
   en:
     contentDir: content/en
-    title: My blog
+    title: Nikita Gusarov
     weight: 1
 sitemap:
   changefreq: monthly
   filename: sitemap.xml
   priority: 0.5
 params:
+  featured_image: images/default_x220.png
+  body_classes: "courrier bg-near-white"
+  post_content_classes: "courrier bg-near-white"
+  # custom_css: [custom.css]
+  # omit_header_text: true
   background_color_class: bg-black
-  description: To this personnal and somewhat professional blog of a PhD student.
-  #facebook: ''
-  #favicon: ''
-  featured_image: /images/gohugo-default-sample-hero-image.jpg
-  github: ''
-  gitlab: ''
-  #instagram: ''
-  linkedin: ''
-  #mastodon: ''
-  recent_posts_number: 2
-  #rss: ''
-  site_logo: ''
-  #slack: ''
-  #stackoverflow: ''
-  #twitter: https://twitter.com/GoHugoIO
-  #youtube: ''
+  description: 
+  # facebook: ''
+  # favicon: ''
+  github: 'https://github.com/nikitagusarov'
+  gitlab: 'https://gitlab.com/nikitagusarov'
+  # instagram: ''
+  linkedin: 'https://www.linkedin.com/in/nikita-gusarov-264a25175'
+  # mastodon: ''
+  recent_posts_number: 5
+  # rss: ''
+  # site_logo: '/images/id_git.png'
+  # slack: ''
+  # stackoverflow: ''
+  # twitter: https://twitter.com/GoHugoIO
+  # youtube: ''
 ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 markup:
   goldmark:
