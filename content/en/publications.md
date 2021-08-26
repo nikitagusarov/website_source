@@ -28,4 +28,7 @@ hal-03019739, HAL.
 : Nikita Gusarov, "<B><A HREF="/docs/thesis_m2.pdf">Performance comparison of the discrete choice models of consumer choice</A></B>", M2 Thesis, FEG, UGA
 
 **2019**
-: Nikita Gusarov, "<B><A HREF="/docs/thesis_m1.pdf">Analyse de la participation au marché du travail et des déterminants du salaire : Application d’un modèle de sélection endogène et essais d’utilisation des techniques en grande dimension</A></B>", M1 Memoire, FEG, UGA
+: Nikita Gusarov, "<B><A HREF="/docs/thesis_m1.pdf">Analyse de la participation au marché du travail et des déterminants du salaire : Application d’un modèle de sélection endogène et essais d’utilisation des techniques en grande dimension</A></B>", M1 Memoire (in french), FEG, UGA
+
+**2018**
+: Nikita Gusarov, "<B><A HREF="/docs/thesis_b4.pdf">Построение модели прогнозирования валютных курсов с целью оценки их влияния на внешнюю торговлю России со странами ЕС</A></B>", Bachelor Y4 Thesis (in russian), Faculty of International Trade, RFTA
