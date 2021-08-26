@@ -1,9 +1,8 @@
 ---
+title: Background
 description: Curriculum Vitae
 featured_image: images/default_x220.png
 menu: main
-#omit_header_text: true
-title: Background
 type: page
 ---
 
@@ -35,40 +34,6 @@ table th:nth-of-type(2) {
 -->
 
 
----
-
-## Publications
-
-2020: 
-
-
-
----
-
-## Research Projects
-
-**Discrete Choice Modelling and Behavioural Sciences**
-* "*Comparison of discrete choice model performances in presence of heterogeneous preferences in population*", M2, Thesis
-* "*Study of the factors associated with the frequency of public transopt use in Grenoble*", M2, Advanced econometrics
-* "*Identification of the network effects in the Discrete Choice Models*", M1, Thesis 2
-
-**Microeconomics**
-* "*Study of the pesticides impact on the French table vine market*", M2, Panel data econometrics
-* "*Analysis of the participation in the labour market and the salary determinants*", M1, Thesis 1
-
-**Macroeconomics**
-* "*Exploration of the evolution of residential construction permits in France*", M2, Shneider supported project
-* "*Construction of an econometric model for predicting the fluctuations in Euro/Rouble pair*", Bachelor Y4, Thesis
-
-**Data Analysis**
-* "*Ways to analyse the textual data*", M1, Thesis 0
-* "*Researchers' networks and patent ambiguity*", M1, Nanoelec supported project
-
-**General Economics**
-* "*History and future of economic developpment of the European Union*", Bachelor Y3, Thesis
-* "*Perspectives for the Russian Federation on the weapons market of Africa in presence of concurrence*", Bachelor Y2, Thesis
-
-
 
 ---
 
@@ -96,16 +61,16 @@ table th:nth-of-type(2) {
 ## Studies
 
 **2020 - now**
-: PhD in Economics at UGA, EDSE
+: PhD in Economics at UGA, EDSE, *CDD provided by UGA*
 
 **2018 - 2020**
-: Master in Economics at UGA, FEG
+: Master in Economics at UGA, FEG, *IDEX scholarship*
 
 **2016 - 2018**
-: Licence in Economics at UGA, FEG
+: Licence in Economics at UGA, FEG, *IDEX scholarship*
 
 **2014 - 2018**
-: Bachelor in Economics at Russian Foreign Trade Academy (RFTA)
+: Bachelor in Economics at Russian Foreign Trade Academy (RFTA), *Russian Federation state scholarship*
 
 **before - 2014**
 : School 179 of Moscow Institute of Open Education, Natural Science profile
@@ -146,5 +111,11 @@ table th:nth-of-type(2) {
 **Econometrics and Data Analysis**
 : SAS, Stata, Gretl, Analyzer
 
+**Data Management**
+: SQL
+
+**Web**
+: HTML, CSS
+
 **Other**
-: Sphinx
+: Sphinx, LaTeX
