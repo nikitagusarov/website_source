@@ -1,0 +1,89 @@
+---
+title: LaTeX, publications and tikz
+author: ''
+date: '2021-08-27'
+slug: []
+categories: [Experience]
+tags: [LaTeX, Workflow, Tips]
+featured_image: /images/latex.png
+description: ''
+---
+
+
+
+Todays' experience with helping to submitt an article for a journal of *Taylor & Francis* group was educative and energy draining at the same time. 
+Yesterday was quite a long day dedicated to styling the document, while now I had only figures to worry about. 
+Later, I'll definitely have to write some guide about academic writing and how *R* software, which can be useful in this aspect. 
+But now lets speak about some usefull tips in using *tikz*.
+
+In *RMarkdown* there are several options on how to integrate *tikz* graphics into a document. 
+When generating a LaTeX output, the simplest way is to embed the LaTeX code inside the document. 
+While working with other formats, the only solutions is to use *tikz* environment provided by *RMarkdown*.
+
+```
+`` `{tikz, figure, fig.cap = "Figure", fig.align = "center"}
+*Some figure here*
+`` `
+```
+
+In order to be able to use this environment one will need to have `magick` and `pdftools` *R* packages installed. 
+The first one depending on `magick++` library^[On Debian based systems `deb: libmagick++-dev`.], while the second requires `libpoppler` files to run^[On Debian based systems `deb: libpoppler-cpp-dev` work flawlessly.].
+But this is not the topic for today. 
+
+On the first place among todays' discoveries that are worth mentionning we have the possibility to place the `nodes` on drawn lines: 
+
+```{tikz, figure, fig.cap = "Figure", fig.align = "center"}
+\usetikzlibrary{
+    fit,
+    arrows.meta,
+    mindmap,
+    shadows,
+    backgrounds,
+    calc,
+    positioning,
+    shapes.misc,
+    shapes.geometric
+}
+\begin{tikzpicture}
+  [box/.style = {
+    rectangle,
+    draw = black, 
+    rounded corners, 
+    minimum height={3em},
+    align=left
+  },
+  circ/.style = {
+    circle,
+    draw=black, 
+    fill=white,
+    minimum size=3em,
+    thin,
+    align=center
+  },node distance=5mm and 2mm
+  ]
+  \draw[-{stealth},very thick] (0,8) .. controls (1,4)  .. (0,0)
+    node[pos=0.1, circ] (a) {1}
+    node[pos=0.3, circ] (b) {2}
+    node[pos=0.5, circ] (c) {3}
+    node[pos=0.7, circ] (d) {4}
+    node[pos=0.9, circ] (e) {5}
+  ;
+
+  \node[box, right=of a, minimum width={50mm}] (a1) {};
+    \node[right, align=left] at (a1.west) {\textbf{Titi}\\Text};
+  \node[box, right=of b, minimum width={50mm}] (b1) {};
+    \node[right, align=left] at (b1.west) {\textbf{Tutu 2}\\Some text};
+  \node[box, right=of c, minimum width={50mm}] (c1) {};
+    \node[right, align=left] at (c1.west) {\textbf{Toto 3}\\Toto the third};
+  \node[box, right=of d, minimum width={50mm}] (d1) {};
+    \node[right, align=left] at (d1.west) {\textbf{Toto}\\More text};
+  \node[box, right=of e, width={50mm}] (e1) {};
+    \node[right, align=left] at (e1.west) {\textbf{Tutu}\\Text};
+
+  \draw[-Butt Cap,line width=5pt] (a)--(a1);
+  \draw[-Butt Cap,line width=5pt] (b)--(b1);
+  \draw[-Butt Cap,line width=5pt] (c)--(c1);
+  \draw[-Butt Cap,line width=5pt] (d)--(d1);
+  \draw[-Butt Cap,line width=5pt] (e)--(e1);
+\end{tikzpicture}
+```
