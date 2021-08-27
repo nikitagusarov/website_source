@@ -32,3 +32,16 @@ hal-03019739, HAL.
 
 **2018**
 : Nikita Gusarov, "<B><A HREF="/docs/thesis_b4.pdf">Построение модели прогнозирования валютных курсов с целью оценки их влияния на внешнюю торговлю России со странами ЕС</A></B>", Bachelor Y4 Thesis (in russian), Faculty of International Trade, RFTA
+
+
+
+---
+
+## Other works
+
+**2020**
+: Nikita Gusarov, Tom Viellescazes, "<B><A HREF="/docs/mobility.pdf">Etude des facteurs associés à l’usage fréquent des transports en commun urbain</A></B>"
+
+**2019**
+: Arnaud Blanc, Nikita Gusarov and Sasha Picon "<B><A HREF="/docs/pesticides.pdf">Etude des effets des pesticides sur le marché des vins de table</A></B>"
+
