@@ -14,13 +14,15 @@ cache:
 
 before_install:
   - Rscript -e 'install.packages("blogdown")'
+  - Rscript -e 'install.packages("pdftools")'
+  - Rscript -e 'install.packages("magick")'
 
 install:
   - Rscript -e 'blogdown::install_hugo("0.87.0")'
   - ls
 
 script:
-  - Rscript -e 'blogdown::build_site()'
+  - Rscript -e 'blogdown::build_site(local = FALSE)'
   - touch public/.nojekyll
   - ls public -a
 
