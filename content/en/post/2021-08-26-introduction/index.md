@@ -15,7 +15,7 @@ My name is Nikita Gusarov and I'm currently doing my Doctoral studies at the Uni
 {{< figure src="/images/grenoble_night.png" >}}
 
 My work is primarily focused on exploration of the performances of *Discrete Choice Models* (DCM) in modelling individual behaviour. 
-This is a rather breathtaking topic, because of its interdisciplinarity. 
+This is a rather breathtaking topic, because of its interdisciplinary nature. 
 I have to deal at the same time with different techniques from quite distant fields, among which: 
 
 - *Statistics*

@@ -37,7 +37,7 @@ table th:nth-of-type(2) {
 
 ---
 
-## Proffessional experience
+## Professional experience
 
 **2020 - now**
 : Grenoble Applied Economics Lab (GAEL), G-SCOP Laboratory, University Grenoble Alpes (UGA), Grenoble INP
@@ -52,7 +52,7 @@ table th:nth-of-type(2) {
 : *Identification of network effects with Discrete Choice Models for individual decision making*
 
 **2018**
-: Analytics Center of Russian Federation Government
+: Analytics Centre of Russian Federation Government
 
 
 

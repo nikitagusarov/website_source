@@ -10,7 +10,7 @@ type: page
 
 ---
 
-## Centers of interest
+## Centres of interest
 
 * Behavioural Theories
 * Discrete Choice Modelling (DCM)
@@ -19,7 +19,7 @@ type: page
 * Machine Learning (ML)
 * Numerical Optimisation
 * System Administration
-* Workflow Managment
+* Workflow Management
 
 
 
@@ -29,7 +29,7 @@ type: page
 
 **Discrete Choice Modelling and Behavioural Sciences**
 * "*Comparison of discrete choice model performances in presence of heterogeneous preferences in population*", M2, Thesis
-* "*Study of the factors associated with the frequency of public transopt use in Grenoble*", M2, Advanced econometrics
+* "*Study of the factors associated with the frequency of public transport use in Grenoble*", M2, Advanced econometrics
 * "*Identification of the network effects in the Discrete Choice Models*", M1, Thesis 2
 
 **Microeconomics**
@@ -37,7 +37,7 @@ type: page
 * "*Analysis of the participation in the labour market and the salary determinants*", M1, Thesis 1
 
 **Macroeconomics**
-* "*Exploration of the evolution of residential construction permits in France*", M2, Shneider supported project
+* "*Exploration of the evolution of residential construction permits in France*", M2, Schneider supported project
 * "*Construction of an econometric model for predicting the fluctuations in Euro/Rouble pair*", Bachelor Y4, Thesis
 
 **Data Analysis**
@@ -45,5 +45,5 @@ type: page
 * "*Researchers' networks and patent ambiguity*", M1, Nanoelec supported project
 
 **General Economics**
-* "*History and future of economic developpment of the European Union*", Bachelor Y3, Thesis
+* "*History and future of economic development of the European Union*", Bachelor Y3, Thesis
 * "*Perspectives for the Russian Federation on the weapons market of Africa in presence of concurrence*", Bachelor Y2, Thesis

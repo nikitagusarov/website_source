@@ -1,6 +1,6 @@
 ---
 title: Welcome!
-description: Hope some of the information you'll find here may be usefull
+description: Hope some of the information you'll find here may be useful
 featured_image: /images/default_x220.png
 ---
 
