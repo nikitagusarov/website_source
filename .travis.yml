@@ -12,19 +12,11 @@ cache:
   directories:
     - $HOME/bin
 
-before_install:
-  - Rscript -e 'install.packages("blogdown")'
-  - Rscript -e 'install.packages("pdftools")'
-  - Rscript -e 'install.packages("magick")'
-
 install:
-  - Rscript -e 'blogdown::install_hugo("0.87.0")'
-  - ls
+  - Rscript -e 'source("R/install.R")'
 
 script:
-  - Rscript -e 'blogdown::build_site(local = FALSE)'
-  - touch public/.nojekyll
-  - ls public -a
+  - Rscript -e 'source("R/script.R")'
 
 deploy:
   provider: pages
@@ -35,6 +27,6 @@ deploy:
   on:
     branch: main
   local-dir: public
-  fqdn: nikitagusarov.github.io
+  # fqdn: nikitagusarov.github.io
   repo: nikitagusarov/nikitagusarov.github.io
   target_branch: main
