@@ -22,23 +22,23 @@ params:
   featured_image: images/default_x220.png
   body_classes: "courrier bg-near-white"
   post_content_classes: "courrier bg-near-white"
+  background_color_class: bg-black
+  recent_posts_number: 6
   # custom_css: [custom.css]
   # omit_header_text: true
-  background_color_class: bg-black
   description: 
-  # facebook: ''
-  # favicon: ''
   github: 'https://github.com/nikitagusarov'
   gitlab: 'https://gitlab.com/nikitagusarov'
+  linkedin: 'https://fr.linkedin.com/in/nikita-gusarov-264a25175'
   # instagram: ''
-  linkedin: 'https://www.linkedin.com/in/nikita-gusarov-264a25175'
+  # facebook: ''
+  # favicon: ''
   # mastodon: ''
-  recent_posts_number: 5
   # rss: ''
   # site_logo: '/images/id_git.png'
   # slack: ''
   # stackoverflow: ''
-  # twitter: https://twitter.com/GoHugoIO
+  # twitter: ''
   # youtube: ''
 ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 markup:
