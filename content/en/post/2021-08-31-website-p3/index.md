@@ -137,7 +137,7 @@ To avoid the situation when *Travis* deletes the `public` folder before making c
 deploy:
   provider: pages
   strategy: git
-  cleanup: false
+  skip_cleanup: true
   keep_history: true
   token: $GITHUB_TOKEN
   on:
