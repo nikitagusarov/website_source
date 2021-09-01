@@ -1,6 +1,6 @@
 ---
 title: Building a website (part 2)
-author: ''
+author: 'Nikita Gusarov'
 date: '2021-08-29'
 slug: []
 categories: [Experience]

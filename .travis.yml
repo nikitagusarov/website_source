@@ -21,12 +21,12 @@ script:
 deploy:
   provider: pages
   strategy: git
-  skip-cleanup: true
-  keep-history: true
-  github-token: $GITHUB_TOKEN
+  cleanup: false
+  keep_history: true
+  token: $GITHUB_TOKEN
   on:
     branch: main
-  local-dir: public
+  local_dir: public
   # fqdn: nikitagusarov.github.io
   repo: nikitagusarov/nikitagusarov.github.io
   target_branch: main
