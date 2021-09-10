@@ -1,6 +1,6 @@
 ---
 title: Introduction
-author: 
+author: 'Nikita Gusarov'
 date: '2021-08-26'
 slug: []
 categories: [Personal]
