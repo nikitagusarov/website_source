@@ -170,9 +170,31 @@ For other users, who prefer standard layout:
 
 - [System76 Launch keyboard](https://system76.com/accessories/launch): from 285$
 
+And finally, a full spectre of [foldable](https://bestreviews.com/computer/keyboards/best-foldable-keyboards) or other types of portable keyboards. 
+
 ### E-ink notebooks
 
 Once again a category represented by *Pine64* produced specimen. 
 Probably somewhere other alternatives exist. 
 
 - [PineNote](https://www.pine64.org/pinenote/): unknown
+
+
+
+## Not OSH but may still be interesting
+
+The last category regroups non OSH (or not fully OSH) gadgets. 
+There are always more fascinating things for tech-lovers over the Internet.
+
+- 3D printers as discussed [here](https://www.omnicoreagency.com/best-3d-printers/) or [here]: the cheapest ones may go under 200€ (ex: [Delta Mini V2](https://www.monoprice.eu/products/monoprice-mp-mini-delta-3d-printer))
+- [Portable projectors](https://www.pcmag.com/picks/the-best-portable-projectors) (another list on [techradar](https://www.techradar.com/news/best-portable-projectors)): from 139€
+- [External GPU's](https://forums.tomsguide.com/faq/how-to-install-and-setup-an-exp-gdc-beast-extrenal-graphics-card-dock-on-your-laptop.188427/): among the best specimens we can name [EXP GDC Beast](https://www.ebay.fr/itm/284000044519?chn=ps&norover=1&mkevt=1&mkrid=709-153316-544655-4&mkcid=2&itemid=284000044519&targetid=4582145999899469&device=c&mktype=&googleloc=&poi=&campaignid=416257894&mkgroupid=1256742341326109&rlsatarget=pla-4582145999899469&abcId=9300547&merchantid=87893&msclkid=29d37a3975ae1854801d1b052ca627a6) for around 50€, but pay attention to the connectors)
+- [Headphones](https://www.techradar.com/news/audio/best-in-ear-headphones-1276925) (for those, who still did not have found their best solution): from ~10€
+- [USB/SD drives](https://www.tomsguide.com/best-picks/best-usb-drives) (one can never have enough mobile storage): from ~10€
+
+And a lot more interesting tools not directly related to tech:
+
+- [GPS trackers](https://www.androidauthority.com/apple-airtags-alternatives-1222793/) as an *AirTag* alternative: around 25€
+- [Key Organisers](https://www.mykeyport.com/collections/pivots): from 24€
+- Toolkits (ex: [IFixIt toolkits](https://fr.ifixit.com/Boutique/Tools/Toolkits)): from 14€
+- [Card Holder Wallets](https://everydaycarry.com/best-card-holder-wallets): from ~10€
