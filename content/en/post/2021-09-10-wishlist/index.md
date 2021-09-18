@@ -186,6 +186,7 @@ Probably somewhere other alternatives exist.
 The last category regroups non OSH (or not fully OSH) gadgets. 
 There are always more fascinating things for tech-lovers over the Internet.
 
+- [Alternative Health tracker](https://ouraring.com/): 314€
 - 3D printers as discussed [here](https://www.omnicoreagency.com/best-3d-printers/) or [here]: the cheapest ones may go under 200€ (ex: [Delta Mini V2](https://www.monoprice.eu/products/monoprice-mp-mini-delta-3d-printer))
 - [Portable projectors](https://www.pcmag.com/picks/the-best-portable-projectors) (another list on [techradar](https://www.techradar.com/news/best-portable-projectors)): from 139€
 - [External GPU's](https://forums.tomsguide.com/faq/how-to-install-and-setup-an-exp-gdc-beast-extrenal-graphics-card-dock-on-your-laptop.188427/): among the best specimens we can name [EXP GDC Beast](https://www.ebay.fr/itm/284000044519?chn=ps&norover=1&mkevt=1&mkrid=709-153316-544655-4&mkcid=2&itemid=284000044519&targetid=4582145999899469&device=c&mktype=&googleloc=&poi=&campaignid=416257894&mkgroupid=1256742341326109&rlsatarget=pla-4582145999899469&abcId=9300547&merchantid=87893&msclkid=29d37a3975ae1854801d1b052ca627a6) for around 50€, but pay attention to the connectors)
