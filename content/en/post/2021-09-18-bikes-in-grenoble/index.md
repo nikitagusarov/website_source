@@ -1,6 +1,6 @@
 ---
 title: Bikes in Grenoble
-author: ~
+author: 'Nikita Gusarov'
 date: '2021-09-18'
 slug: []
 categories: [Personal]
