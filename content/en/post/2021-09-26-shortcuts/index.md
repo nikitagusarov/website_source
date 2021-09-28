@@ -11,9 +11,9 @@ description: ''
 
 
 
-Some whhile ago I had an interesting discussion concerning the different approaches to workflow organisation and learning. 
+Some while ago I had an interesting discussion concerning the different approaches to workflow organisation and learning. 
 It happened around at the same time, that I've discovered the [*Vimium*](https://vimium.github.io/) browser extension. 
-This coinsidence lead me to write this blogpost about the workflow organisation and usage of shortcuts in everyday life. 
+This coincidence lead me to write this blog-post about the workflow organisation and usage of shortcuts in everyday life. 
 To keep the content simple, I'll start with some general ideas on using shortcuts and then present some advantages of using their *Vim-style* version. 
 
 
@@ -34,7 +34,7 @@ The main reason is the time saving and efficiency of such input method:
 - No need to switch between input devices
 
 Consequently, the more proficient shortcut user may not even need to move the hands away from the keyboard. 
-Using a laptop with trackpad or a keyboard with integrated ultranav device (ex: a *trackpoint*) makes it even easier to avoid unnessessary movements. 
+Using a laptop with trackpad or a keyboard with integrated ultranav device (ex: a *trackpoint*) makes it even easier to avoid unnecessary movements. 
 
 However, there are some drawbacks in using shortcuts: 
 
@@ -52,15 +52,15 @@ It's on this point that we switch our attention to *Vim*
 
 ## What is Vim?
 
-Because my blog is not oriented at some particular audithory, I believe some of you may never have heard about [Vi](http://ex-vi.sourceforge.net/) or [Vim](https://www.vim.org/) (which stands for *Vi IMproved*). 
-There exist some other forks and reimplementations of *Vim* like [Neovim](https://neovim.io/), for example, but this is not that important. 
-The key idea here is that *Vim* is tiny, simple and yet very powerfull text editor, with a very specific workflow. 
+Because my blog is not oriented at some particular auditory, I believe some of you may never have heard about [Vi](http://ex-vi.sourceforge.net/) or [Vim](https://www.vim.org/) (which stands for *Vi IMproved*). 
+There exist some other forks and reimplementation of *Vim* like [Neovim](https://neovim.io/), for example, but this is not that important. 
+The key idea here is that *Vim* is tiny, simple and yet very powerful text editor, with a very specific workflow. 
 
-Nowadays, a vast majority of software focuses on visual mode functionnality and most of the shortcuts must be called by a specific control key (usually `Ctrl`, `Win` or `Alt`). 
+Nowadays, a vast majority of software focuses on visual mode functionality and most of the shortcuts must be called by a specific control key (usually `Ctrl`, `Win` or `Alt`). 
 This greatly limits the usability of some patterns, making it impossible to call some of the commands with single hand. 
 
 But *Vim* completely bypasses such limitations through introduction of various *modes* (command and insert modes, in original *Vim* text editor).
-The main idea of proposing several functionnal modes, among which one may navigate with single-key commands makes it astounishingly handy to use. 
+The main idea of proposing several functional modes, among which one may navigate with single-key commands makes it astonishingly handy to use. 
 Consequently, this approach allows to use character keys to input commands and remap some of the inconvenient combinations: for example, remapping directional arrows to `h`, `j`, `k` and `l` keys. 
 Just imagine, navigation without moving your hand away from printing position! 
 For some more insight into *vi* editing one may see the '[Why, oh WHY, do those #?@! nutheads use vi?](http://www.viemu.com/a-why-vi-vim.html)' post. 
