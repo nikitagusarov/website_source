@@ -5,7 +5,7 @@ date: '2021-12-27'
 slug: []
 categories: [Personal]
 tags: [Personal, Updates]
-featured_image: 'blog_update.jpg'
+featured_image: '/images/blog_update.jpg'
 description: ''
 ---
 

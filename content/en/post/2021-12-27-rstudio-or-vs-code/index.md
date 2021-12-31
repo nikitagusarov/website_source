@@ -5,7 +5,7 @@ date: '2021-12-27'
 slug: []
 categories: [Programming, Personal]
 tags: [Programming, IDE, RStudio, VS Code, R]
-featured_image: 'vscode-or-rstudio_0.png'
+featured_image: '/images/vscode-or-rstudio_0.png'
 description: ''
 ---
 
@@ -112,12 +112,12 @@ I'll not linger on this step, because it is completely identical to typical R in
 In VS Code those additional functionalities may be added by means of *extensions* installation. 
 Depending on what functionality we seek we may find several packages, which support R language, but it's always better to stick with the most popular and advanced one: [`R Extension`](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r) by Yuki Ueda. 
 
-![VSCode R Extension](vscode-or-rstudio_extension.png)
+![VSCode R Extension](/images/vscode-or-rstudio_extension.png)
 
 3. Afterwards it remains to configure the extension by pointing it to the correct R executable, which may be especially useful in case one has several installation of R. 
 As well as to specify any specific executables, such as `radian` if one wants to use them.
 
-![VSCode `radian` setup](vscode-or-rstudio_radian.png)
+![VSCode `radian` setup](/images/vscode-or-rstudio_radian.png)
 
 4. The last point is optional, and will serve only to those who use some sort of version control system in their projects. 
 VS Code comes with integrated support for version control, which is far more rich, than the one offered with RStudio. 
