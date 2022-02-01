@@ -1,28 +1,28 @@
 ---
-title: Selfhosting
+title: Self-hosting
 author: 'Nikita Gusarov'
 date: '2022-02-01'
 slug: []
-categories: [Programming, Selfhosting]
-tags: [Programming, Selfhosting, Linux, Home Server]
+categories: [Programming, Self-hosting]
+tags: [Programming, Self-hosting, Linux, Home Server]
 featured_image: '/images/self-hosting-0.png'
 description: ''
 ---
 
 
 
-Today we are going to speak about the *selfhosting*. 
-Since the start of january I've spent some time on configuration of my home server for my personal applications. 
+Today we are going to speak about the *self-hosting*. 
+Since the start of January I've spent some time on configuration of my home server for my personal applications. 
 The idea behind this transition was to put some more distance between myself and my dependence on the external services, where I've no means to control my personal data. 
 The last year, I've already performed the transition from using the *Google Drive* and *Dropbox* to the usage of more private *NextCloud* solutions (offered by my university,as well as a privacy respecting server in Zurich). 
-Nevetheless, when I've discovered a long unused motherboard, belonging to my school laptop, I've decided to give it a new life. 
+Nevertheless, when I've discovered a long unused motherboard, belonging to my school laptop, I've decided to give it a new life. 
 
-What is more, this period coinceeded with my discovery of *Vaultwarden*, a free *Bitwarden* fork, which perfectly matched with my idea of my security policy renewal. 
-In short, all considerations combined I've decided to start selfhosting some of cloud services for personal (and family) use. 
+What is more, this period coincided with my discovery of *Vaultwarden*, a free *Bitwarden* fork, which perfectly matched with my idea of my security policy renewal. 
+In short, all considerations combined I've decided to start self-hosting some of cloud services for personal (and family) use. 
 
-## Why selfhost anything?
+## Why self-host anything?
 
-Among the main advantages of selfhosting in my personal usecase I may name:
+Among the main advantages of self-hosting in my personal use-case I may name:
 
 - Breaching the dependency on third party solutions
 - Gaining full control over personal data, its storage and security
@@ -30,9 +30,9 @@ Among the main advantages of selfhosting in my personal usecase I may name:
 - Possibility to tinker with some new tech
 
 All of this sounds quite awesome, but everything goes at a price. 
-Among the drawbacks one can easilly name:
+Among the drawbacks one can easily name:
 
-- Potential security risks linked with a lack of profficiency and tech knowledge of the user
+- Potential security risks linked with a lack of proficiency and tech knowledge of the user
 - Potential lower reliability in cases of electricity outages and unforeseen events
 
 At this point it's important to weight the risks and your ability to take them. 
@@ -42,10 +42,10 @@ That, with occasional manual backups on external hard drives makes data / server
 
 ## What applications to host?
 
-Because of the experimental nature of the setup, I've decided to stick with some most popular and subjectivelly usefull software choices. 
+Because of the experimental nature of the setup, I've decided to stick with some most popular and subjectively useful software choices. 
 Here they are:
 
-- *Vaultwarden* - a free fork of *Bitwarden* for secure password management and sychronisation across multiple devices
+- *Vaultwarden* - a free fork of *Bitwarden* for secure password management and synchronisation across multiple devices
 - *Nextcloud* - an open source cloud storage solution
 
 Both of them are quite popular choices and there are plenty of guides on how to install and configure them. 
@@ -55,19 +55,19 @@ Nevertheless, I've encountered some difficulties with first time *reverse proxy*
 
 For the server I've used a motherboard of my old HP (15-bs007) laptop, placed into a custom built enclosure. 
 It has quite a weak, 2 core processor (Celeron N3060), but it's more than enough for a small home server for personal use. 
-Such weak complectation prowides one advantage: low power usage, which is extremely good for server running 24/7. 
+Such a weak configuration provides one advantage: low power usage, which is extremely good for server running 24/7. 
 And 4Gb of RAM suffices for the intended use case as well. 
 
 ![Server configuration](/images/self-hosting-1.png)
 
 The OS choice has been made in favour of *Ubntu Server*, with the LTS version. 
-The installation of the sytem is rather straihgtforward and I will not include the details of this step here. 
+The installation of the system is rather straightforward and I will not include the details of this step here. 
 It is simply required to follow the CLI installer to fully configure the server. 
 Among the additional steps we have:
 
 - Generation of several non-sudo users for confusion purposes
 - Renaming of the single sudoer to something unexpected
-- Configuration of passwordless login via `ssh` (with `ssh` keys), with password login being fully blocked
+- Configuration of password-less login via `ssh` (with `ssh` keys), with password login being fully blocked
 - Transition of the `ssh` connection port to something other than default port 22
 - Enabling `ufw` and closing all other ports except one used for `ssh` session
 
@@ -123,6 +123,7 @@ server {
 }
 ```
 
+We specify the behaviour for the connections on default ports (accessed by most web browsers by default). 
 Enable the created server block:
 
 ```
@@ -152,12 +153,13 @@ sudo certbot --nginx -d <yourdomain>
 
 *Certbot* should automatically edit the contents of `/etc/nginx/sites-available/web` file. 
 From now on, the certificates may be automatically renewed with the command `sudo certbot renew` as a `cron` job. 
+We may want to configure `nginx` with `certbot` to connect always in https mode, redirecting eventual http connections. 
 
-### Nextcloud
+### NextCloud
 
-![Nextcloud](/images/self-hosting-2.png)
+![NextCloud](/images/self-hosting-2.png)
 
-*Nextcloud* is identically simple to install:
+*NextCloud* is identically simple to install:
 
 ```
 sudo snap install nextcloud
@@ -176,7 +178,7 @@ sudo snap set nextcloud ports.http=<nexcloudhttpport>
 sudo snap set nextcloud ports.https=<nextcloudhttpsport>
 ```
 
-Finally add the nextcloud related configuration lines to the server block (the part listenning to the port 443) in `nginx` configuration. 
+Finally add the *NextCloud* related configuration lines to the server block (the part listening to the port 443) in `nginx` configuration. 
 For example, we may use:
 
 ```
@@ -225,8 +227,8 @@ location /nextcloud {
 ![Vaultwarden](/images/self-hosting-3.png)
 
 Finally, we install *Vaultwarden* as docker container on our system. 
-First we will need a working docker instalation. 
-I'll not describe the comlete procedure here, because it's subject to be modified with time. 
+First we will need a working docker installation. 
+I'll not describe the complete procedure here, because it's subject to be modified with time. 
 It's better to refer directly to the [Docker website](https://docs.docker.com/engine/install/) for more precise and up to date instructions. 
 To start docker container with *Vaultwarden* run: 
 
@@ -239,9 +241,9 @@ docker run -d --name vaultwarden \
     -e DOMAIN=<yourdomain>/vw
 ```
 
-This command will pull the latest vaultwarden image and deploy it. 
+This command will pull the latest *Vaultwarden* image and deploy it. 
 We assume that one may be interested to configure the U2F authentication for this application, which requires a `DOMAIN` environmental variable to be provided. 
-Next, the conents we add to our proxy configurations are as follows: 
+Next, the contents we add to our proxy configurations are as follows: 
 
 ```
 # Vaultwarden configuration
@@ -260,7 +262,7 @@ location /vaultwarden/ {
 ```
 
 Please note, that these contents are placed inside the same `server` block of our proxy configuration as previously added entry related to *NextCloud*. 
-This will allow us to reach vaultwarden from behind the `nginx` proxy. 
+This will allow us to reach *Vaultwarden* from behind the `nginx` proxy. 
 
 Finally it remains to schedule the automated jobs for updates and backups. 
 As well as harden the configuration with additional security measures (ex: `fail2ban`), but we will talk about it another time. 
