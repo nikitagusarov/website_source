@@ -5,8 +5,8 @@
 # Install packages
 ## Blogdown
 install.packages("blogdown")
-install.packages("tinytex")
-tinytex::install_tinytex()
+# install.packages("tinytex")
+# tinytex::install_tinytex()
 # install.packages("bibliometrix")
 ## PDF render
 install.packages("magick")
