@@ -5,6 +5,7 @@
 # Install packages
 ## Blogdown
 install.packages("blogdown")
+# install.packages("bibliometrix")
 ## PDF render
 install.packages("magick")
 install.packages("pdftools")

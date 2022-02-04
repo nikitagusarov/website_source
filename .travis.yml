@@ -13,6 +13,7 @@ cache:
     - $HOME/bin
 
 install:
+  - sudo apt install -y r-cran-tidyverse r-cran-igraph
   - Rscript -e 'source("R/install.R")'
 
 script:
