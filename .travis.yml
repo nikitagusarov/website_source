@@ -1,7 +1,7 @@
 os: linux
 language: r
 dist: xenial
-latex: false
+latex: true
 
 branches:
   only:

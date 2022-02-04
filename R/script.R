@@ -4,7 +4,8 @@
 
 # Build site
 blogdown::build_site(
-    local = FALSE
+    local = FALSE,
+    build_rmd = TRUE
 )
 
 # Add .nojekyll
