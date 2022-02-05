@@ -43,7 +43,7 @@ The `Quandl` has absolutely different ideology.
 It provides uniquely the possibility to query the *Quandt API*, which extremely facilitates the dataset construction. 
 Consequently, for simple data import it may be better to stick with the `Quandl` solution. 
 
-Finally, there exists as well the [`tidyquandt`](https://github.com/business-science/tidyquant), bringing the `tidyverse` compatibility for both `quantmod` and `Quandl` packages. 
+Finally, there exists as well the [`tidyquant`](https://github.com/business-science/tidyquant), bringing the `tidyverse` compatibility for both `quantmod` and `Quandl` packages. `
 This may be extremely useful if you are already familiar with the `tidyverse` ideology. 
 
 ## Starting with `Quandl`
@@ -186,18 +186,21 @@ fb_mdp_2016 %>%
     knitr::kable()
 ```
 
-Tehe ease of use may be extended even further. 
+The ease of use may be extended even further. 
 Even though `Quandl()` can operate over vectors, the resulting `data.frame` inherits inefficient column names representing a sequence of `{database_code}/{dataset_code} {value_name}`. 
 As you can see, this format requires some additional transformation steps after to become `tidy`. 
 We can equally use the `tidyquant` for the same purpose, which output directly a `tidy` data-frame and can take even `data.frame`s as inputs. 
 
 ```{r querry-mult, message = FALSE, warning = FALSE}
+# Load tidyquant
+library(tidyquant)
+
 # Stocks
 stocks = c("WIKI/FB", "WIKI/AAPL")
 
 # Querry
 db = stocks %>%
-    tidyquant::tq_get(
+    tq_get(
         get = "quandl",
         start_date = "2016-01-01", 
         end_date = "2016-12-31",
@@ -212,13 +215,69 @@ knitr::kable(db)
 
 Such data can be easily filtered, transformed and explored afterwards. 
 
+## Searching for data
+
+The `Quandl` package offers some particularly interesting functionality for querying the databases index. 
+It may be used through a `Quandl.search()` command or, better, through `tidyquant`'s `quandl_search()` wrapper. 
+For example, we can search for *Apple*: 
+
+```{r search}
+# Search for Apple
+"Apple" %>% 
+    quandl_search(
+        per_page = 5, 
+        silent = TRUE
+    ) %>% 
+    dplyr::select(
+        c(dataset_code, database_code, name)
+    ) %>%
+    knitr::kable()
+```
+
+Unfortunately, the default `Quandl` databases do not contain information about any of the ETF's. 
+The only easily accessible indexes are: 
+
+```{r index}
+# Indexes
+tq_index_options()
+```
+
+The number of stock exchanges is equally limited and may not be suitable for some users (especially if we speak about EU):
+
+```{r exchanges}
+# Exchanges
+tq_exchange_options()
+```
+
+As you can see, the toolset offers access to USA based exchanges, but no other **free** options are offered.
+
+The `tq_get()` function unites the capabilities of both `Quandl` and `quandmod` packages. 
+However, the documentation is outdated and some sources are unavailable. 
+Among the listed on the [package's vignettes](https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ01-core-functions-in-tidyquant.html) we find: 
+
+- [Yahoo Finance](https://finance.yahoo.com/) - Daily stock data
+- [FRED](https://fred.stlouisfed.org/) - Economic data (*US specific mostly*)
+- [Quandl](https://data.nasdaq.com/) - Economic, Energy, & Financial Data API
+- [Tiingo](https://www.tiingo.com/) - Financial API with sub-daily stock data and crypto-currency
+- [Alpha Vantage](https://www.alphavantage.co/) - Financial API with sub-daily, ForEx, and crypto-currency data
+- [Bloomberg](https://www.bloomberg.com/) - Financial API (*paid account is required*)
+
+Unfortunately, some of the API's do not perform as intended. 
+One example is the Yahoo Finance, which seems to be extremely difficult to reach from behind a custom DNS with filtered *adblocking*. 
+However, lowering your defences will allow you to get your hands on some of the ETF's data (at least the selection available on *Yahoo*).
+
 ## Closing remarks
 
-One of the main disadvantages of both `quandmod` and `Quandl` is the low availability of data. 
-Most of the historic datasets are simply unavailable for **free** in the internet via an API. 
-Consequently, there is a need to search for alternative tools.
+One of the main disadvantages of both `quandmod` and `Quandl` (as well as the `tidyquant`) is the low availability of data. 
+Most of the historic datasets, interesting for EU residents, are simply unavailable for **free** in the internet via an API. 
+While working with stocks only the available sources may be good enough, inclusion of ETF's into portfolio makes things more difficult. 
+Consequently, there is may be a need to search for alternative tools.
 
-The first option is to go directly *scrapping* with native *R* toolset over the web for data. 
+The first and most plainly obvious solution is to run the `tidyquant` wit custom DNS resolver disabled. 
+This means as well that you'll have to limit your choices to the most popular listings, which appear on *Yahoo*. 
+For personal side-project this may be the optimal choice. 
+
+The second option is to go directly *scrapping* with native *R* toolset over the web for data. 
 Among the drawbacks of this solution we have an incredible time-waste on creation of your own *wheel* to hunt for the data. 
 Moreover, there is constant risk that your *wheel* will break because of the third party decisions (ex: changes in the source website data distribution policy, updates, etc). 
 This solution is equally inefficient because most websites provide a limited amount of historical data (ex: 3 or 5 years), which potentially limits the amount of learning to be done over it. 
@@ -228,6 +287,6 @@ Unfortunately, the prices are extremely discouraging when you aim at small perso
 The fees vary between 30-100$$ for entry level options and, as always, the upper limit is non-existent. 
 Obviously, this is absolutely unreasonable when you want to run some tests with just a 100€.
 
-Finally, there exist some alternative solutions (premade scrappers and API interfaces) for other languages 
+Finally, there exist some alternative solutions (premade scrappers and other API interfaces) for other languages 
 (ex: `python`, which is extremely popular because of its more permissive licence). 
-This may be an interesting path to follow, which we'll do in near future. 
+This may be an interesting path to follow, which we'll probably do in near future. 
