@@ -1,0 +1,233 @@
+---
+title: Financial market analysis with R
+author: 'Nikita Gusarov'
+date: '2022-02-05'
+slug: []
+categories: [Programming]
+tags: [Programming, R, Finance, Time Series]
+featured_image: '/images/stocks-0.png'
+description: ''
+---
+
+
+
+Recently I've became obsessed with the idea of getting into stock exchange (for *testing purposes* and not for actual *investment*). 
+One of the main reasons is the desire to start putting something aside for long-term  perspective, but in short perspective this project gives me quite a lot of things to play with. 
+Among them - the possibility to explore the predictive financial oriented models, neural networks (NN) testing for stock predictions and many more. 
+
+Obviously, before switching to data analysis and investing one should acquire data for analysis. 
+Here our well known *R* language ecosystem can give us a hand: there exist quite a number of packages and API interfaces for stock data retrieval. 
+In this post we are going to focus on one of the simplest solutions - the [Nasdaq data](https://data.nasdaq.com/) platform. 
+
+
+
+## R interfaces for financial data extraction
+
+Among the most popular interfaces, allowing to query various API's for stocks information we find:
+
+- [`quantmod`](https://github.com/joshuaulrich/quantmod), that provides a framework for quantitative financial modelling and trading (see [here](https://www.quantmod.com/) for project's official website)
+- [`Quandl`](https://github.com/quandl/quandl-r), which brings the possibility to interact with [Quandl API](https://docs.data.nasdaq.com/)
+
+The `quandmod` provides more features and data extraction back-ends. 
+It functions extremely well with a custom, modified version of the `zoo` times series format (bundled in `xts` package). 
+On their official website authors state, that `quandmod` is`:
+
+> A rapid prototyping environment, where `quant` traders can quickly and cleanly explore and build trading models. 
+
+In other words, this is a full featured package offering a dedicated environment for financial analysis needs. 
+However, I've found the dataset import features rather broken at the moment on the official CRAN version of the package. 
+It does not work well enough from behind a proxy or a custom DNS server. 
+The resolution of the "*yahoo*" domains fails, while "*google*" version is completely non-existent (because Google stopped to provide stocks information on a dedicated channel). 
+
+The `Quandl` has absolutely different ideology. 
+It provides uniquely the possibility to query the *Quandt API*, which extremely facilitates the dataset construction. 
+Consequently, for simple data import it may be better to stick with the `Quandl` solution. 
+
+Finally, there exists as well the [`tidyquandt`](https://github.com/business-science/tidyquant), bringing the `tidyverse` compatibility for both `quantmod` and `Quandl` packages. 
+This may be extremely useful if you are already familiar with the `tidyverse` ideology. 
+
+## Starting with `Quandl`
+
+Evidently, before proceeding we should load the `Quandl` library:
+
+```{r lib, results = "hide", message = FALSE}
+# Load library
+library(Quandl)
+library(magrittr)
+```
+
+To make out the most out of the integration with the *Quandt API* it's advised to create a **free** account, which will provide you with an API key. 
+This API key gives unlimited access to *Quandt* databases, while the queries without API key are restricted to only 50 per day. 
+
+![Quandt registration page](/images/quandl-reg.png)
+
+```{r quandl-api-true, include = FALSE}
+# Register key within R
+api_key = "u2NNtyAZ6i7VAmLEqaav"
+
+# Pass the key to Quandl
+Quandl.api_key(api_key)
+```
+
+```{r quandl-api, eval = FALSE}
+# Register key within R
+api_key = "SoMeTesTKeY123987456"
+
+# Pass the key to Quandl
+Quandl.api_key(api_key)
+```
+
+<!-- 
+In this post an API key from a testing profile is used, by the time the contents are published the profile does not exists anymore (so no point in attempting to connect with it to the server). 
+-->
+
+From this point onwards, the interactions with *Quandt API* are rather straightforward. 
+The function `Quandl()` is a wrapper for the common API queries and is mostly sufficient for all the desired features. 
+For example, to get **OIL** history from **NSE** database it suffices to run:
+
+```{r quandl-ex}
+# Extract data
+oil = Quandl("NSE/OIL", type = "zoo")
+```
+
+What produces us a `zoo` time series data frame: 
+
+```{r oil}
+# Present results
+oil[, 1:3] %>% 
+    as.data.frame() %>%
+    head() %>%
+    knitr::kable("html")
+```
+
+The command will actually perform the following query:
+
+```
+GET https://data.nasdaq.com/api/v3/datasets/{database_code}/{dataset_code}/data.{return_format}
+```
+
+Where `database_code = "NSE"` and `dataset_code = "OIL"`, returning the results in `zoo` format. 
+It's equally possible to provide the API key information in order to get unlimited queries. 
+The other output formats are `ts`, `raw` (which returns `data.frame`), `xts` and `timeSeries`. 
+
+It's possible to run more complex queries as well. 
+For more information one may want to read the [Quandt API documentation](https://docs.data.nasdaq.com/docs/in-depth-usage). 
+Once you become familiar with the queries, it becomes quite easy to perform all the necessary actions even without the `Quandl` wrapper. 
+For example, to load the above dataset in plain `.csv` format it without any auxiliary functions one can run:
+
+```{r params}
+# Parameters
+database_code = "NSE"; dataset_code = "OIL"
+format = "csv"
+```
+
+```{r no-quandl, eval = FALSE}
+# Querry
+download.file(
+    paste0(
+        "https://data.nasdaq.com/api/v3/datasets/",
+        database_code, "/", dataset_code, 
+        "/data.", format,
+        "?api_key=", api_key
+    ),
+    destfile = "test.csv",
+    method = "wget"
+)
+```
+
+Then the can read the resulting file as we would have done with simple `.csv`. 
+Or we may load read such `.csv` even without saving it into separate file:
+
+```{r no-quandl-csv}
+# Querry
+oil_csv = 
+    paste0(
+        "https://data.nasdaq.com/api/v3/datasets/",
+        database_code, "/", dataset_code, 
+        "/data.", format,
+        "?api_key=", api_key
+    ) %>%
+    read.csv() 
+```
+
+The resulting `data.frame` object is:
+
+```{r oil_csv}
+# Present results
+oil_csv[, 1:4] %>% 
+    head() %>%
+    knitr::kable()
+```
+
+However, there is little sense in reinventing the wheel, when we already have `Quandl` at our disposal. 
+The more advanced features made available through complex API calls turn to be extremely simple with through `Quandl` interface. 
+For example, a complex query which should retrieve *monthly % changes in Facebook's closing price for the year 2016*:
+
+```
+curl "https://data.nasdaq.com/api/v3/datasets/WIKI/FB.csv?column_index=4&start_date=2014-01-01&end_date=2014-12-31&collapse=monthly&transform=rdiff&api_key=YOURAPIKEY
+```
+
+May be rewritten using `Quandl` as simple as:
+
+```{r querry}
+# Querry
+fb_mdp_2016 = Quandl(
+    "WIKI/FB", 
+    start_date = "2016-01-01", 
+    end_date = "2016-12-31",
+    collapse = "monthly",
+    transform = "rdiff",
+    column_index = 11
+)
+
+# Results presentation
+fb_mdp_2016 %>% 
+    as.data.frame() %>% 
+    knitr::kable()
+```
+
+Tehe ease of use may be extended even further. 
+Even though `Quandl()` can operate over vectors, the resulting `data.frame` inherits inefficient column names representing a sequence of `{database_code}/{dataset_code} {value_name}`. 
+As you can see, this format requires some additional transformation steps after to become `tidy`. 
+We can equally use the `tidyquant` for the same purpose, which output directly a `tidy` data-frame and can take even `data.frame`s as inputs. 
+
+```{r querry-mult, message = FALSE, warning = FALSE}
+# Stocks
+stocks = c("WIKI/FB", "WIKI/AAPL")
+
+# Querry
+db = stocks %>%
+    tidyquant::tq_get(
+        get = "quandl",
+        start_date = "2016-01-01", 
+        end_date = "2016-12-31",
+        collapse = "quarterly",
+        transform = "rdiff",
+        column_index = 11
+    )
+
+# Results presentation
+knitr::kable(db)
+```
+
+Such data can be easily filtered, transformed and explored afterwards. 
+
+## Closing remarks
+
+One of the main disadvantages of both `quandmod` and `Quandl` is the low availability of data. 
+Most of the historic datasets are simply unavailable for **free** in the internet via an API. 
+Consequently, there is a need to search for alternative tools.
+
+The first option is to go directly *scrapping* with native *R* toolset over the web for data. 
+Among the drawbacks of this solution we have an incredible time-waste on creation of your own *wheel* to hunt for the data. 
+Moreover, there is constant risk that your *wheel* will break because of the third party decisions (ex: changes in the source website data distribution policy, updates, etc). 
+This solution is equally inefficient because most websites provide a limited amount of historical data (ex: 3 or 5 years), which potentially limits the amount of learning to be done over it. 
+
+Another alternative includes *paying for access* to private databases, 
+Unfortunately, the prices are extremely discouraging when you aim at small personal project. 
+The fees vary between 30-100$$ for entry level options and, as always, the upper limit is non-existent. 
+Obviously, this is absolutely unreasonable when you want to run some tests with just a 100€.
+
+Finally, there exist some alternative solutions (premade scrappers and API interfaces) for other languages 
+(ex: `python`, which is extremely popular because of its more permissive licence). 
+This may be an interesting path to follow, which we'll do in near future. 

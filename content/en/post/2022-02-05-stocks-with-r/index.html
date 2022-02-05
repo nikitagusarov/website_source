@@ -1,0 +1,417 @@
+---
+title: Financial market analysis with R
+author: 'Nikita Gusarov'
+date: '2022-02-05'
+slug: []
+categories: [Programming]
+tags: [Programming, R, Finance, Time Series]
+featured_image: '/images/stocks-0.png'
+description: ''
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Recently I’ve became obsessed with the idea of getting into stock exchange (for <em>testing purposes</em> and not for actual <em>investment</em>).
+One of the main reasons is the desire to start putting something aside for long-term perspective, but in short perspective this project gives me quite a lot of things to play with.
+Among them - the possibility to explore the predictive financial oriented models, neural networks (NN) testing for stock predictions and many more.</p>
+<p>Obviously, before switching to data analysis and investing one should acquire data for analysis.
+Here our well known <em>R</em> language ecosystem can give us a hand: there exist quite a number of packages and API interfaces for stock data retrieval.
+In this post we are going to focus on one of the simplest solutions - the <a href="https://data.nasdaq.com/">Nasdaq data</a> platform.</p>
+<div id="r-interfaces-for-financial-data-extraction" class="section level2">
+<h2>R interfaces for financial data extraction</h2>
+<p>Among the most popular interfaces, allowing to query various API’s for stocks information we find:</p>
+<ul>
+<li><a href="https://github.com/joshuaulrich/quantmod"><code>quantmod</code></a>, that provides a framework for quantitative financial modelling and trading (see <a href="https://www.quantmod.com/">here</a> for project’s official website)</li>
+<li><a href="https://github.com/quandl/quandl-r"><code>Quandl</code></a>, which brings the possibility to interact with <a href="https://docs.data.nasdaq.com/">Quandl API</a></li>
+</ul>
+<p>The <code>quandmod</code> provides more features and data extraction back-ends.
+It functions extremely well with a custom, modified version of the <code>zoo</code> times series format (bundled in <code>xts</code> package).
+On their official website authors state, that <code>quandmod</code> is`:</p>
+<blockquote>
+<p>A rapid prototyping environment, where <code>quant</code> traders can quickly and cleanly explore and build trading models.</p>
+</blockquote>
+<p>In other words, this is a full featured package offering a dedicated environment for financial analysis needs.
+However, I’ve found the dataset import features rather broken at the moment on the official CRAN version of the package.
+It does not work well enough from behind a proxy or a custom DNS server.
+The resolution of the “<em>yahoo</em>” domains fails, while “<em>google</em>” version is completely non-existent (because Google stopped to provide stocks information on a dedicated channel).</p>
+<p>The <code>Quandl</code> has absolutely different ideology.
+It provides uniquely the possibility to query the <em>Quandt API</em>, which extremely facilitates the dataset construction.
+Consequently, for simple data import it may be better to stick with the <code>Quandl</code> solution.</p>
+<p>Finally, there exists as well the <a href="https://github.com/business-science/tidyquant"><code>tidyquandt</code></a>, bringing the <code>tidyverse</code> compatibility for both <code>quantmod</code> and <code>Quandl</code> packages.
+This may be extremely useful if you are already familiar with the <code>tidyverse</code> ideology.</p>
+</div>
+<div id="starting-with-quandl" class="section level2">
+<h2>Starting with <code>Quandl</code></h2>
+<p>Evidently, before proceeding we should load the <code>Quandl</code> library:</p>
+<pre class="r"><code># Load library
+library(Quandl)
+library(magrittr)</code></pre>
+<p>To make out the most out of the integration with the <em>Quandt API</em> it’s advised to create a <strong>free</strong> account, which will provide you with an API key.
+This API key gives unlimited access to <em>Quandt</em> databases, while the queries without API key are restricted to only 50 per day.</p>
+<div class="figure">
+<img src="/images/quandl-reg.png" alt="" />
+<p class="caption">Quandt registration page</p>
+</div>
+<pre class="r"><code># Register key within R
+api_key = &quot;SoMeTesTKeY123987456&quot;
+
+# Pass the key to Quandl
+Quandl.api_key(api_key)</code></pre>
+<!-- 
+In this post an API key from a testing profile is used, by the time the contents are published the profile does not exists anymore (so no point in attempting to connect with it to the server). 
+-->
+<p>From this point onwards, the interactions with <em>Quandt API</em> are rather straightforward.
+The function <code>Quandl()</code> is a wrapper for the common API queries and is mostly sufficient for all the desired features.
+For example, to get <strong>OIL</strong> history from <strong>NSE</strong> database it suffices to run:</p>
+<pre class="r"><code># Extract data
+oil = Quandl(&quot;NSE/OIL&quot;, type = &quot;zoo&quot;)</code></pre>
+<p>What produces us a <code>zoo</code> time series data frame:</p>
+<pre class="r"><code># Present results
+oil[, 1:3] %&gt;% 
+    as.data.frame() %&gt;%
+    head() %&gt;%
+    knitr::kable(&quot;html&quot;)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Open
+</th>
+<th style="text-align:right;">
+High
+</th>
+<th style="text-align:right;">
+Low
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2009-09-30
+</td>
+<td style="text-align:right;">
+1096.0
+</td>
+<td style="text-align:right;">
+1156.7
+</td>
+<td style="text-align:right;">
+1090.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2009-10-01
+</td>
+<td style="text-align:right;">
+1102.0
+</td>
+<td style="text-align:right;">
+1173.7
+</td>
+<td style="text-align:right;">
+1102.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2009-10-05
+</td>
+<td style="text-align:right;">
+1152.0
+</td>
+<td style="text-align:right;">
+1165.9
+</td>
+<td style="text-align:right;">
+1136.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2009-10-06
+</td>
+<td style="text-align:right;">
+1149.8
+</td>
+<td style="text-align:right;">
+1157.2
+</td>
+<td style="text-align:right;">
+1132.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2009-10-07
+</td>
+<td style="text-align:right;">
+1153.8
+</td>
+<td style="text-align:right;">
+1160.7
+</td>
+<td style="text-align:right;">
+1140.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2009-10-08
+</td>
+<td style="text-align:right;">
+1145.0
+</td>
+<td style="text-align:right;">
+1179.8
+</td>
+<td style="text-align:right;">
+1142.0
+</td>
+</tr>
+</tbody>
+</table>
+<p>The command will actually perform the following query:</p>
+<pre><code>GET https://data.nasdaq.com/api/v3/datasets/{database_code}/{dataset_code}/data.{return_format}</code></pre>
+<p>Where <code>database_code = "NSE"</code> and <code>dataset_code = "OIL"</code>, returning the results in <code>zoo</code> format.
+It’s equally possible to provide the API key information in order to get unlimited queries.
+The other output formats are <code>ts</code>, <code>raw</code> (which returns <code>data.frame</code>), <code>xts</code> and <code>timeSeries</code>.</p>
+<p>It’s possible to run more complex queries as well.
+For more information one may want to read the <a href="https://docs.data.nasdaq.com/docs/in-depth-usage">Quandt API documentation</a>.
+Once you become familiar with the queries, it becomes quite easy to perform all the necessary actions even without the <code>Quandl</code> wrapper.
+For example, to load the above dataset in plain <code>.csv</code> format it without any auxiliary functions one can run:</p>
+<pre class="r"><code># Parameters
+database_code = &quot;NSE&quot;; dataset_code = &quot;OIL&quot;
+format = &quot;csv&quot;</code></pre>
+<pre class="r"><code># Querry
+download.file(
+    paste0(
+        &quot;https://data.nasdaq.com/api/v3/datasets/&quot;,
+        database_code, &quot;/&quot;, dataset_code, 
+        &quot;/data.&quot;, format,
+        &quot;?api_key=&quot;, api_key
+    ),
+    destfile = &quot;test.csv&quot;,
+    method = &quot;wget&quot;
+)</code></pre>
+<p>Then the can read the resulting file as we would have done with simple <code>.csv</code>.
+Or we may load read such <code>.csv</code> even without saving it into separate file:</p>
+<pre class="r"><code># Querry
+oil_csv = 
+    paste0(
+        &quot;https://data.nasdaq.com/api/v3/datasets/&quot;,
+        database_code, &quot;/&quot;, dataset_code, 
+        &quot;/data.&quot;, format,
+        &quot;?api_key=&quot;, api_key
+    ) %&gt;%
+    read.csv() </code></pre>
+<p>The resulting <code>data.frame</code> object is:</p>
+<pre class="r"><code># Present results
+oil_csv[, 1:4] %&gt;% 
+    head() %&gt;%
+    knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Date</th>
+<th align="right">Open</th>
+<th align="right">High</th>
+<th align="right">Low</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2019-01-04</td>
+<td align="right">172.05</td>
+<td align="right">174.95</td>
+<td align="right">172.05</td>
+</tr>
+<tr class="even">
+<td align="left">2019-01-03</td>
+<td align="right">172.80</td>
+<td align="right">175.70</td>
+<td align="right">171.50</td>
+</tr>
+<tr class="odd">
+<td align="left">2019-01-02</td>
+<td align="right">175.80</td>
+<td align="right">176.20</td>
+<td align="right">171.00</td>
+</tr>
+<tr class="even">
+<td align="left">2019-01-01</td>
+<td align="right">175.00</td>
+<td align="right">176.40</td>
+<td align="right">174.15</td>
+</tr>
+<tr class="odd">
+<td align="left">2018-12-31</td>
+<td align="right">178.10</td>
+<td align="right">179.00</td>
+<td align="right">174.35</td>
+</tr>
+<tr class="even">
+<td align="left">2018-12-28</td>
+<td align="right">172.45</td>
+<td align="right">178.45</td>
+<td align="right">171.30</td>
+</tr>
+</tbody>
+</table>
+<p>However, there is little sense in reinventing the wheel, when we already have <code>Quandl</code> at our disposal.
+The more advanced features made available through complex API calls turn to be extremely simple with through <code>Quandl</code> interface.
+For example, a complex query which should retrieve <em>monthly % changes in Facebook’s closing price for the year 2016</em>:</p>
+<pre><code>curl &quot;https://data.nasdaq.com/api/v3/datasets/WIKI/FB.csv?column_index=4&amp;start_date=2014-01-01&amp;end_date=2014-12-31&amp;collapse=monthly&amp;transform=rdiff&amp;api_key=YOURAPIKEY</code></pre>
+<p>May be rewritten using <code>Quandl</code> as simple as:</p>
+<pre class="r"><code># Querry
+fb_mdp_2016 = Quandl(
+    &quot;WIKI/FB&quot;, 
+    start_date = &quot;2016-01-01&quot;, 
+    end_date = &quot;2016-12-31&quot;,
+    collapse = &quot;monthly&quot;,
+    transform = &quot;rdiff&quot;,
+    column_index = 11
+)
+
+# Results presentation
+fb_mdp_2016 %&gt;% 
+    as.data.frame() %&gt;% 
+    knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Date</th>
+<th align="right">Adj. Close</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2016-12-31</td>
+<td align="right">-0.0284580</td>
+</tr>
+<tr class="even">
+<td align="left">2016-11-30</td>
+<td align="right">-0.0959615</td>
+</tr>
+<tr class="odd">
+<td align="left">2016-10-31</td>
+<td align="right">0.0212053</td>
+</tr>
+<tr class="even">
+<td align="left">2016-09-30</td>
+<td align="right">0.0170473</td>
+</tr>
+<tr class="odd">
+<td align="left">2016-08-31</td>
+<td align="right">0.0175892</td>
+</tr>
+<tr class="even">
+<td align="left">2016-07-31</td>
+<td align="right">0.0845292</td>
+</tr>
+<tr class="odd">
+<td align="left">2016-06-30</td>
+<td align="right">-0.0381281</td>
+</tr>
+<tr class="even">
+<td align="left">2016-05-31</td>
+<td align="right">0.0104610</td>
+</tr>
+<tr class="odd">
+<td align="left">2016-04-30</td>
+<td align="right">0.0304996</td>
+</tr>
+<tr class="even">
+<td align="left">2016-03-31</td>
+<td align="right">0.0671530</td>
+</tr>
+<tr class="odd">
+<td align="left">2016-02-29</td>
+<td align="right">-0.0471437</td>
+</tr>
+</tbody>
+</table>
+<p>Tehe ease of use may be extended even further.
+Even though <code>Quandl()</code> can operate over vectors, the resulting <code>data.frame</code> inherits inefficient column names representing a sequence of <code>{database_code}/{dataset_code} {value_name}</code>.
+As you can see, this format requires some additional transformation steps after to become <code>tidy</code>.
+We can equally use the <code>tidyquant</code> for the same purpose, which output directly a <code>tidy</code> data-frame and can take even <code>data.frame</code>s as inputs.</p>
+<pre class="r"><code># Stocks
+stocks = c(&quot;WIKI/FB&quot;, &quot;WIKI/AAPL&quot;)
+
+# Querry
+db = stocks %&gt;%
+    tidyquant::tq_get(
+        get = &quot;quandl&quot;,
+        start_date = &quot;2016-01-01&quot;, 
+        end_date = &quot;2016-12-31&quot;,
+        collapse = &quot;quarterly&quot;,
+        transform = &quot;rdiff&quot;,
+        column_index = 11
+    )
+
+# Results presentation
+knitr::kable(db)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">date</th>
+<th align="right">adj.close</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">WIKI/FB</td>
+<td align="left">2016-06-30</td>
+<td align="right">0.0015776</td>
+</tr>
+<tr class="even">
+<td align="left">WIKI/FB</td>
+<td align="left">2016-09-30</td>
+<td align="right">0.1224186</td>
+</tr>
+<tr class="odd">
+<td align="left">WIKI/FB</td>
+<td align="left">2016-12-31</td>
+<td align="right">-0.1030638</td>
+</tr>
+<tr class="even">
+<td align="left">WIKI/AAPL</td>
+<td align="left">2016-06-30</td>
+<td align="right">-0.1174931</td>
+</tr>
+<tr class="odd">
+<td align="left">WIKI/AAPL</td>
+<td align="left">2016-09-30</td>
+<td align="right">0.1888981</td>
+</tr>
+<tr class="even">
+<td align="left">WIKI/AAPL</td>
+<td align="left">2016-12-31</td>
+<td align="right">0.0298194</td>
+</tr>
+</tbody>
+</table>
+<p>Such data can be easily filtered, transformed and explored afterwards.</p>
+</div>
+<div id="closing-remarks" class="section level2">
+<h2>Closing remarks</h2>
+<p>One of the main disadvantages of both <code>quandmod</code> and <code>Quandl</code> is the low availability of data.
+Most of the historic datasets are simply unavailable for <strong>free</strong> in the internet via an API.
+Consequently, there is a need to search for alternative tools.</p>
+<p>The first option is to go directly <em>scrapping</em> with native <em>R</em> toolset over the web for data.
+Among the drawbacks of this solution we have an incredible time-waste on creation of your own <em>wheel</em> to hunt for the data.
+Moreover, there is constant risk that your <em>wheel</em> will break because of the third party decisions (ex: changes in the source website data distribution policy, updates, etc).
+This solution is equally inefficient because most websites provide a limited amount of historical data (ex: 3 or 5 years), which potentially limits the amount of learning to be done over it.</p>
+<p>Another alternative includes <em>paying for access</em> to private databases,
+Unfortunately, the prices are extremely discouraging when you aim at small personal project.
+The fees vary between 30-100$$ for entry level options and, as always, the upper limit is non-existent.
+Obviously, this is absolutely unreasonable when you want to run some tests with just a 100€.</p>
+<p>Finally, there exist some alternative solutions (premade scrappers and API interfaces) for other languages
+(ex: <code>python</code>, which is extremely popular because of its more permissive licence).
+This may be an interesting path to follow, which we’ll do in near future.</p>
+</div>
