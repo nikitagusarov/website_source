@@ -44,7 +44,7 @@ table th:nth-of-type(2) {
 : *Exploration of Discrete choice Models performance metrics*
 
 **2020**
-: GAEL, Grenoble Informatics Laboratory (LIG), Multidisciplinary Institute in Artificial Intelligence (MIAI), UGA
+: GAEL, Grenoble Informatics Laboratory (LIG), Multidisciplinary Institute in Artificial Intelligence (MIAI), PLATFORM, UGA
 : *Consumer Choice and Preference Modelling with Discrete Choice Models*
 
 **2019**
@@ -53,6 +53,27 @@ table th:nth-of-type(2) {
 
 **2018**
 : Analytics Centre of Russian Federation Government
+
+
+
+---
+
+## Teaching
+
+**2021 - 2022**
+: UGA, Faculté d'Economie et de Gestion (FEG)
+: - *Econometrics 3, Discrete Choice Analysis (DCA)*
+
+**2021 - 2022**
+: Grenoble INP, Génie Industriel (GI)
+: - *Analyse des Données pour les métiers du Génie Industriel (2A)*
+: - *Travaux d'Étude et de Recherche (TER, 2A)*
+: - *Statistics (1A)*
+
+**2021 - 2022**
+: Grenoble INP, Génie Industriel (GI)
+: - *Travaux d'Étude et de Recherche (TER, 2A)*
+: - *Statistics (1A)*
 
 
 
@@ -81,14 +102,14 @@ table th:nth-of-type(2) {
 
 ## Languages
 
-**Russian**
-: Native speaker
-
 **French** (C1)
 : DALF C1 (2018), DELF B2 (2018)
 
 **English** (C1)
 : CAE C1 (2015), LCCI C1 (2016)
+
+**Russian**
+: Native speaker
 
 **Italian** (B2)
 : Universita per Stragnieri di Perugia certificate C1 (2017)
@@ -118,4 +139,4 @@ table th:nth-of-type(2) {
 : HTML, CSS
 
 **Other**
-: Sphinx, LaTeX
+: Sphinx, LaTeX, Markdown, Git
