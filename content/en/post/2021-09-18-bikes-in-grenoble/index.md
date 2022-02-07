@@ -5,7 +5,7 @@ date: '2021-09-18'
 slug: []
 categories: [Personal]
 tags: [Information, Hobby]
-featured_image: /images/bikes.png
+featured_image: /images/bikes.jpg
 description: ''
 ---
 
@@ -24,7 +24,7 @@ So what are the alternatives?
 - Car (or any other personal motorised transport)
 
 The first two alternatives do not provide enough flexibility. 
-Even though the public transport is well developped in Grenoble, there are still some drawbacks: (1) long commutes usually take to many time, (2) the route and destination choices are rather limited and (3) for people over 25 years the prices are exorbitant. 
+Even though the public transport is well developed in Grenoble, there are still some drawbacks: (1) long commutes usually take to many time, (2) the route and destination choices are rather limited and (3) for people over 25 years the prices are exorbitant. 
 The last one does not suit me as well, because I still don't have any type of driving permit and will not be able to acquire one fast enough. 
 This goes without saying that driving in city centre is literally impossible in Grenoble.
 
