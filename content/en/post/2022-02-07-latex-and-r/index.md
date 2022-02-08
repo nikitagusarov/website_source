@@ -11,7 +11,7 @@ description: ''
 
 
 
-Today I've to complete one of the course deliverables with some indications about how to compile the `.Rmd` files. 
+Today I've had to complete one of the course deliverables with some indications about how to compile the `.Rmd` files. 
 The courses I'm giving (partially) at Grenoble INP Génie Industriel (GI) are mostly oriented for the first and second year students on the engineering track. 
 This means that the level of heterogeneity in the knowledge across the groups is extreme and while some of them are more than capable to use *R* for document compilation, others encounter difficulties with this task. 
 
@@ -203,7 +203,7 @@ output:
 
 Some text of the first paragraph.
 
-```{r}`r ''`
+```{r}
 x = 10 + 1
 ```
 ````

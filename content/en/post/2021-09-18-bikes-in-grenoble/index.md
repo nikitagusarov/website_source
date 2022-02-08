@@ -13,7 +13,7 @@ description: ''
 
 Lately, I've taken a break from the technical publications about *R* and informatics in general. 
 This is mostly because I was distracted by a more immediate problems: the choice of a bike for this academic year. 
-My contract with the [Metrovelo](), the most popular bike-rental company in Grenoble, has expired around 10-th september, pushing me to reconsider my travel choices.  
+My contract with the [Metrovelo](https://www.veloplus-m.fr/), the most popular bike-rental company in Grenoble, has expired around 10-th september, pushing me to reconsider my travel choices.  
 
 In Grenoble, as in many other european towns, the transportation choices are more versatile than in Moscow, or any northern cities in general. 
 So what are the alternatives? 
@@ -34,7 +34,7 @@ What is more, the market of bikes shows great diversity in terms of prices, qual
 Here are some of the most popular choices when choosing to use a bike: 
 
 - Short term rental with [Poney](https://getapony.com/fr) or other company (if they will enter the local market)
-- Long term rental with [Metrovelo]()
+- Long term rental with [Metrovelo](https://www.veloplus-m.fr/)
 - Buying a new bike
 - Acquisition of a second hand bike
 

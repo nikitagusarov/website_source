@@ -1,0 +1,159 @@
+---
+title: Python alongside R
+author: 'Nikita Gusarov'
+date: '2022-02-08'
+slug: []
+categories: [Programming]
+tags: [Programming, Tips, R, Python, reticulate]
+featured_image: '/images/reticulate-0.png'
+description: ''
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>While working on my PhD thesis I’m usually facing the situation when I need to use both <a href="https://www.r-project.org/">R</a> and <a href="https://www.python.org/">Python</a> programming languages.
+<em>R</em> offers me the possibility to render neat scientific supports with <a href="https://rmarkdown.rstudio.com/"><code>rmarkdown</code></a> package, which bring <code>.Rmd</code> support.
+Obviously, <em>Python</em> has similar format (<a href="https://python-markdown.github.io/"><code>pymarkdown</code></a> and the <code>.Pmd</code>) available, it is not as well developed as the <em>R</em> counterpart.
+Moreover, I’m far more familiar with <em>R</em> statistical libraries, <a href="https://www.tidyverse.org/"><code>tidyverse</code></a> suite and coding practices.
+However, at the same time I need <em>Python</em> dependencies: the most developed <em>neural network</em> (NN) libraries are written in <em>Python</em> or have their main interface in <em>Python</em>.
+For example, the well known <a href="https://www.tensorflow.org/">TensorFlow</a> has a <em>Python</em> based backend.</p>
+<p>The idea behind this post is to describe the possibilities to combine both <em>R</em> and <em>Python</em> in your workflow.
+There will quite a lot of disjoined materials available on internet in this post, leaving not that much place for my personal contribution.
+But I hope it might be useful for someone, and I expect to convert the results into a guide for the TER’s and other courses I’m giving.</p>
+<div id="configuring-reticulate" class="section level2">
+<h2>Configuring <code>reticulate</code></h2>
+<p>One of the most developed packages for <em>R</em> and <em>Python</em> interactions is the <code>rticulate</code>.
+It offers several possible strategies of interaction between the languages, among which:</p>
+<ul>
+<li>Calling <em>Python</em> directly from <em>R</em>
+<ul>
+<li>Sourcing <em>Python</em> scripts</li>
+<li>Including <em>Python</em> chunks in <em>RMarkdown</em></li>
+<li>Using <em>Python</em> directly from within an <em>R</em> session</li>
+</ul></li>
+<li>Translation between <em>R</em> and <em>Python</em> objects</li>
+<li>Interactions between the different versions of <em>Python</em> through virtual environments</li>
+</ul>
+<p>The <code>reticulate</code> is provided as CRAN package to be installed with <em>R</em>:</p>
+<pre><code># Install reticulate
+install.packages(&quot;reticulate&quot;)</code></pre>
+<p>The package uses the <em>Python</em> version found on your PATH by default.
+So if you already have a working <em>Python</em> installation there is nothing to do.
+However, given the <em>Python</em> language specifics I suggest you use a separate environment to use alongside your <em>R</em> installation.
+One of the good practices is to use a <a href="https://docs.conda.io/en/latest/">Conda</a> virtual environment, or <em>Python</em> <code>virtualenv</code>.
+If you desire to configure a separate <em>Python</em> installation, the <code>reticulate</code> package offers such possibility via <code>miniconda</code> installation.
+This may be achieved with a simple command:</p>
+<pre><code># Install miniconda
+reticulate::install_miniconda()</code></pre>
+<p>The <code>miniconda</code> will be installed in the default, system specific, path.
+To modify it, one can set environmental variable <code>RETICULATE_MINICONDA_PATH</code>.
+After the installation do not forget to verify that <code>conda</code> is in your PATH and activated.</p>
+<p>An existing <em>Python</em> installation can provide similar experience through <code>virtualenv</code> functionality.
+To create a new virtual environment execute:</p>
+<pre class="r"><code># Call reticualte
+library(reticulate)</code></pre>
+<pre><code># Create new virtual environment
+virtualenv_create(&quot;r-environemnt&quot;)
+
+# Tell reticulate what to use
+use_virtualenv(&quot;r-environment&quot;)</code></pre>
+<p>To ensure the correct detections of the desired default <em>Python</em> installations by <code>reticulate</code> you may want to define <code>RETICULATE_PYTHON</code> environmental variable.
+Finally, you may verify the activated environment’s configuration with:</p>
+<pre class="r"><code># Configuration info
+py_config()</code></pre>
+<pre><code>## python:         /home/nikita/.local/share/r-miniconda/envs/r-reticulate/bin/python
+## libpython:      /home/nikita/.local/share/r-miniconda/envs/r-reticulate/lib/libpython3.7m.so
+## pythonhome:     /home/nikita/.local/share/r-miniconda/envs/r-reticulate:/home/nikita/.local/share/r-miniconda/envs/r-reticulate
+## version:        3.7.10 | packaged by conda-forge | (default, Oct 13 2021, 21:01:18)  [GCC 9.4.0]
+## numpy:          /home/nikita/.local/share/r-miniconda/envs/r-reticulate/lib/python3.7/site-packages/numpy
+## numpy_version:  1.21.2</code></pre>
+<p>Once the <em>Python</em> is setup and <code>reticulate</code> detects the desired environment, we may proceed to the description of usecases.</p>
+</div>
+<div id="interacting-with-python" class="section level2">
+<h2>Interacting with <em>Python</em></h2>
+<p>As you could see, there exist multiple strategies to interact with <em>Python</em> from inside <em>R</em>.
+In order to better illustrate how exactly the interaction between <em>R</em> and <em>Python</em> is performed it’s better to start with <code>REPL</code> path.</p>
+<div id="calling-python-repl-from-within-r" class="section level3">
+<h3>Calling <em>Python</em> <code>REPL</code> from within <em>R</em></h3>
+<p>This first option allows us to switch between <em>R</em> and <em>Python</em> sessions in terminal and access shared objects.
+For those who do not know what <code>REPL</code> is here is a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">short definition</a>:</p>
+<blockquote>
+<p>A <strong>read–eval–print loop</strong> (REPL), also termed an interactive toplevel or language shell, is a simple interactive computer programming environment that takes single user inputs, executes them, and returns the result to the user …</p>
+</blockquote>
+<p>We can access <em>Python</em> <code>REPL</code> interface directly from <em>R</em> by running:</p>
+<pre><code># Call Python REPL
+repl_python()</code></pre>
+<p>We can then interact with <em>Python</em> session as we would typically do, as if <em>R</em> did not exist.
+What is more, we can reach <em>R</em> objects, created in our <em>R</em> session.
+All such objects are accessible from within <code>r</code> object in <em>Python</em> session.
+To return back into <em>R</em> session we can execute command <code>exit</code> or <code>quit</code>.
+Then, in our <em>R</em> session we would be able to reach previously created <em>Python</em> objects as parts of <code>py</code> object.
+A quick example:</p>
+<div class="figure">
+<img src="/images/reticulate-0.png" alt="" />
+<p class="caption">REPL Python example</p>
+</div>
+<p>Now it becomes more clear how the different interfaces interact through dummy objects <code>py</code> and <code>r</code></p>
+</div>
+<div id="importing-python-modules-into-r" class="section level3">
+<h3>Importing <em>Python</em> modules into <em>R</em></h3>
+<p>Another option, if you do not want to switch between different languages and interpreters is to load (or <code>import</code>) <em>Python</em> modules inside <em>R</em>.
+This can be done via <code>import()</code> function.</p>
+<pre class="r"><code># Import numpy
+os = import(&quot;os&quot;)
+
+# List directory contents with Python toolset
+os$listdir(&quot;.&quot;)</code></pre>
+<pre><code>## [1] &quot;script.py&quot;       &quot;index.Rmd&quot;       &quot;index.html&quot;      &quot;index.Rmd.lock~&quot;
+## [5] &quot;index_files&quot;</code></pre>
+<p>As one can see, the <em>Python</em> libraries are imported into <em>R</em> as separate objects with desired functionalities inside.</p>
+</div>
+<div id="sourcing-python-code-from-files" class="section level3">
+<h3>Sourcing <em>Python</em> code from files</h3>
+<p>The same principles may be used with scripts.
+Meaning you can write the desired <em>Python</em> script for importing data or session setup into a standalone file and then source it from within your <em>R</em> session.</p>
+<p>For example, we can create a short script creating a new variable, and save into a file:</p>
+<pre class="r"><code># Write into file
+cat(
+    &quot;import os\nld = os.listdir(&#39;.&#39;)&quot;, 
+    append = FALSE,
+    file = &quot;script.py&quot;
+)</code></pre>
+<p>And then call it from within our <em>R</em> session, and print results:</p>
+<pre class="r"><code># Source Python script
+source_python(&quot;script.py&quot;)
+
+# Results
+py$ld</code></pre>
+<pre><code>## [1] &quot;script.py&quot;       &quot;index.Rmd&quot;       &quot;index.html&quot;      &quot;index.Rmd.lock~&quot;
+## [5] &quot;index_files&quot;</code></pre>
+</div>
+<div id="python-chunks-inside-.rmd" class="section level3">
+<h3><em>Python</em> chunks inside <code>.Rmd</code></h3>
+<p>The final option is brought to us alongside <code>rmarkdown</code> format functionality.
+In particular, we can simply create entire <em>Python</em> chunks inside <code>.Rmd</code> file.
+It remains only to specify the correct language in chunk’s parameters:</p>
+<pre><code>
+```python
+import os
+os.listdir(&quot;.&quot;)
+```
+
+```
+## [&#39;script.py&#39;, &#39;index.Rmd&#39;, &#39;index.html&#39;, &#39;index.Rmd.lock~&#39;, &#39;index_files&#39;]
+```</code></pre>
+<p>The general idea behind this method is common to all other methods.
+We can access the objects created within <em>Python</em> chunks in <em>R</em> chunks and vice versa:</p>
+<pre class="python"><code># Import os
+import os
+
+# Check directory contents
+dc = os.listdir(&quot;.&quot;)</code></pre>
+<p>Then we can access the results from within <em>R</em>:</p>
+<pre class="r"><code># Print results
+py$dc</code></pre>
+<pre><code>## [1] &quot;script.py&quot;       &quot;index.Rmd&quot;       &quot;index.html&quot;      &quot;index.Rmd.lock~&quot;
+## [5] &quot;index_files&quot;</code></pre>
+</div>
+</div>
