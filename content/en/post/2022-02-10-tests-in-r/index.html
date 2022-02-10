@@ -1,0 +1,201 @@
+---
+title: Tests in  R
+author: 'Nikita Gusarov'
+date: '2022-02-10'
+slug: []
+categories: [Programming]
+tags: [Programming, R, Tests, devtools]
+featured_image: '/images/test-in-r-0.png'
+description: ''
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Following the previous post about the package creation in <em>R</em> we are going to dive into some details about ho to work with packages.
+The first thing of interest for us is the possibility to perform tests on the package’s contents in order to control the result.
+Such possibility greatly facilitates the workflow while creating a package and ensures its functionality.</p>
+<div id="what-is-testthat" class="section level2">
+<h2>What is <a href="https://testthat.r-lib.org/index.html"><code>testthat</code></a>?</h2>
+<p>Focusing our attention on the <a href="https://devtools.r-lib.org/"><code>devtools</code></a> meta-package’s contents we encounter rather quickly a great number of tools to test packages.
+One of the key element here is the <code>testthat</code> package, which has a number of functions to perform tests.
+Among the advantages listed on the <a href="https://testthat.r-lib.org/index.html">project’s official webpage</a> we discover <code>testthat</code> is, as it:</p>
+<blockquote>
+<ul>
+<li>Provides functions that make it easy to describe what you expect a function to do, including catching errors, warnings, and messages.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Easily integrates in your existing workflow, whether it’s informal testing on the command line, building test suites, or using R CMD check.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Displays test progress visually, showing a pass, fail, or error for every expectation. If you’re using the terminal or a recent version of RStudio, it’ll even colour the output.</li>
+</ul>
+</blockquote>
+<p>I assume that you probably have the <code>testthat</code> installed on your machine as a part of <code>devtools</code> package.
+So, to use the package we would rather call the entire <code>devtools</code> suite:</p>
+<pre class="r"><code># Load packages
+library(devtools)</code></pre>
+<pre><code>## Le chargement a nécessité le package : usethis</code></pre>
+<p>Nearly all the function are built over an <code>expect_</code> prefix, followed with the expected output to test for.
+For example, to test whether an object returns a <code>"double"</code> we can execute:</p>
+<pre class="r"><code># Test if double
+expect_double(object_to_test, type = &quot;double&quot;)</code></pre>
+<p>In case when the condition is not validated, the function will output an error message.
+The number of different condition and wrappers for the things to be tested is extremely large.
+This allows developpers to avoid writting all testing conditions by hand, but rather use simple wrapping functions to test their code.</p>
+<p>But these functions are merely a start - one should use them to <strong>automate</strong> the testing procedure.
+You may ask what is the difference between the automated testing and simply testing the code in the terminal.
+Effectively, the difference is tremendous, because having a hard coded and documented testing workflow in addition to good code structure and package’s documentation helps to keep track of your work.
+The advantages are fairly good summarised in the <a href="https://r-pkgs.org/tests.html">R packages manual</a>:</p>
+<blockquote>
+<p>While you are testing your code in this workflow, you’re only doing it informally.
+The problem with this approach is that when you come back to this code in 3 months time to add a new feature, you’ve probably forgotten some of the informal tests you ran the first time around.
+This makes it very easy to break code that used to work.</p>
+</blockquote>
+<p>But probably it’s eathier to understand after a short demonstration.
+During this demonstration we will be using one another package alongside the <code>testthat</code> - the <a href="https://usethis.r-lib.org/index.html"><code>usethis</code></a> package.
+The last one offers a toolset for repetitive tasks automation for project setup and development.</p>
+</div>
+<div id="automated-tests" class="section level2">
+<h2>Automated tests</h2>
+<p>Before proceeding with the automated tests demonstration we should focus create a dummy package for this purpose.
+As an example, we will take the code written for the previous post.
+We create a simple function and generate a package structure around it:</p>
+<pre class="r"><code># Create function
+my_function = function() {
+    cat(&quot;Hello world!&quot;)
+}
+
+# Create package
+package.skeleton(
+    name = &quot;mypackage&quot;,
+    list = &quot;my_function&quot;,
+    path = &quot;.&quot;,
+    encoding = &quot;UTF-8&quot;
+)</code></pre>
+<p>Afterwards, it remains to follow the instruction as specified in the <code>Read-and-delete-me</code> file<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, generated at the root of the package’s directory:</p>
+<ul>
+<li>Edit the help file skeletons in <code>man</code>, possibly combining help files for multiple functions.</li>
+<li>Edit the exports in <code>NAMESPACE</code>, and add necessary imports.</li>
+<li>Put any C/C++/Fortran code in <code>src</code>.</li>
+<li>If you have compiled code, add a <code>useDynLib()</code> directive to <code>NAMESPACE</code>.</li>
+<li>Run R CMD build to build the package tarball.</li>
+<li>Run R CMD check to check the package tarball.</li>
+</ul>
+<p>For now we are going to ignore most of these steps.
+There is only one function, which does not require any supplementary documentation for testing purposes.
+The <code>NAMESPACE</code> does not require any modification in terms of necessary imports and we have no compiled code in <code>C</code> or <code>C++</code>.
+We may remove this file with command:</p>
+<pre class="r"><code># Remove Read-and-delete-me
+file.remove(&quot;./mypackage/Read-and-delete-me&quot;)</code></pre>
+<p>Nevertheless, before building the package we would like to create some automated testing procedure.
+For example we may deside to verify the ouput of our function.
+in order to do so, we should create an automated template for our tests with <code>usethis</code> (there is no need to specify namespace separately, because the <code>usethis</code> package is loaded as part of <code>devtools</code> meta-package):</p>
+<pre class="r"><code># Move to package location
+setwd(&quot;mypackage&quot;)</code></pre>
+<pre class="r"><code># Using testthat
+usethis::use_testthat()</code></pre>
+<pre><code>## ✔ Setting active project to &#39;/home/nikita/Documents/Personal/website_source/content/en/post/2022-02-10-tests-in-r/mypackage&#39;
+## ✔ Adding &#39;testthat&#39; to Suggests field in DESCRIPTION
+## ✔ Setting Config/testthat/edition field in DESCRIPTION to &#39;3&#39;
+## ✔ Creating &#39;tests/testthat/&#39;
+## ✔ Writing &#39;tests/testthat.R&#39;
+## • Call `use_test()` to initialize a basic test file and open it for editing.</code></pre>
+<p>This function will create a new <code>tests</code> folder in our package’s directory.
+The folder contains a <code>testthat</code> subfolder and a <code>testthat.R</code> script.
+The <code>.R</code> script will execute the following commands:</p>
+<pre><code>library(testthat)
+library(mypackage)
+
+test_check(&quot;mypackage&quot;)</code></pre>
+<p>Which means that the testing script will load required dependencies and the package to test.
+Then the serie of test will be executed.
+Once the main testing framework is generated, it remains to aliment it with the unit tests, which can be done with the command:</p>
+<pre class="r"><code># Create test file for my_function
+use_test(&quot;my_function&quot;, open = FALSE)</code></pre>
+<pre><code>## ✔ Writing &#39;tests/testthat/test-my_function.R&#39;
+## • Edit &#39;tests/testthat/test-my_function.R&#39;</code></pre>
+<p>By convention, this function will create a <code>test-my_function.R</code> file to contain all the tests related to the <code>my_function()</code> object.
+The file will be stored under <code>./tests/testthat</code> directory.
+Afterwards, it remains only to edit the contents of the testing file to verify the desired behaviour.
+For example, we may decide to test whether the function’s output is exactly <code>"\nHello world!\n"</code> with <code>expect_output()</code> function.
+To do so, we write following lines to the file:</p>
+<pre class="r"><code># Write contents
+cat(
+    &quot;test_that(&#39;output_hello_world&#39;, {&quot;,
+    &quot;   expect_output(&quot;,
+    &quot;       my_function(),&quot;,
+    &quot;       regexp = &#39;Hello world!&#39;&quot;,
+    &quot;   )&quot;,
+    &quot;})&quot;, 
+    file = &quot;tests/testthat/test-my_function.R&quot;,
+    sep = &quot;\n&quot;,
+    append = FALSE
+)</code></pre>
+<p>Once the tests configured, we may run the testing job with a command from <code>devtools</code> namespace.
+But before it we are going to clear our workspace, don’t forget that we still have our function attached to the running session:</p>
+<pre class="r"><code>rm(list = c(&quot;my_function&quot;))</code></pre>
+<p>Now, when everything is ready, execute:</p>
+<pre class="r"><code># Run tests
+test()</code></pre>
+<pre><code>## ℹ Loading mypackage</code></pre>
+<pre><code>## ℹ Testing mypackage</code></pre>
+<pre><code>## ✔ | F W S  OK | Context
+## 
+⠏ |         0 | my_function                              
+✔ |         1 | my_function
+## 
+## ══ Results ══════════════════════════════════════════════
+## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 1 ]</code></pre>
+<p>As we can see, the tests are passed without errors.
+Which means that <code>my_function()</code> output exactly corresponds to the desired <code>"Hello world!"</code> statement.
+But were we to modify the test for checking whether the output is <code>"Big white cat"</code>:</p>
+<pre class="r"><code># Write contents
+cat(
+    &quot;test_that(&#39;output_hello_world&#39;, {&quot;,
+    &quot;   expect_output(&quot;,
+    &quot;       my_function(),&quot;,
+    &quot;       regexp = &#39;Big white cat&#39;&quot;,
+    &quot;   )&quot;,
+    &quot;})&quot;, 
+    file = &quot;tests/testthat/test-my_function.R&quot;,
+    sep = &quot;\n&quot;,
+    append = FALSE
+)</code></pre>
+<p>And run the testing procedure:</p>
+<pre class="r"><code># Run tests
+test()</code></pre>
+<pre><code>## ℹ Loading mypackage</code></pre>
+<pre><code>## ℹ Testing mypackage</code></pre>
+<pre><code>## ✔ | F W S  OK | Context
+## 
+⠏ |         0 | my_function                              
+✖ | 1       0 | my_function
+## ─────────────────────────────────────────────────────────
+## Failure (test-my_function.R:2:4): output_hello_world
+## `my_function\(\)` does not match &quot;Big white cat&quot;.
+## Actual value: &quot;Hello world!&quot;
+## Backtrace:
+##  1. testthat::expect_output(my_function(), regexp = &quot;Big white cat&quot;)
+##       at test-my_function.R:2:3
+##  2. testthat::expect_match(...)
+##  3. testthat:::expect_match_(...)
+## ─────────────────────────────────────────────────────────
+## 
+## ══ Results ══════════════════════════════════════════════
+## [ FAIL 1 | WARN 0 | SKIP 0 | PASS 0 ]</code></pre>
+<p>One failed test would be detected, because the values do not match.</p>
+<p>Once you become familiar with the test procedures setup, you may proceed with more complex tasks.
+For example, it may be interesting to configure a <em>Continuous Integration</em> (CI) workflow to run all the test externally on a dedicated server.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>
+This is an autogenerated files, which is create by the <code>package.skeleton()</code> function.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

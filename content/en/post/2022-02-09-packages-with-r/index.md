@@ -77,8 +77,8 @@ For example:
 my_function = function() {cat("\nHello world!\n")}
 
 # Create package
-devtools::package.skeleton(
-    name = "package_name",
+package.skeleton(
+    name = "mypackage",
     list = "my_function",
     path = "packages",
     encoding = "UTF-8"
