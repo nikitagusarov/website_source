@@ -1,5 +1,5 @@
 ---
-title: Packages with R
+title: Creating packages with R
 author: 'Nikita Gusarov'
 date: '2022-02-09'
 slug: []
@@ -24,7 +24,7 @@ I believe this little initiative will result in more than one single post, as I'
 
 ## The toolset 
 
-I already have one post dedicated to [Git]() and project management, so I'll avoid focusing on this part of package maintenance here. 
+I already have one post dedicated to [Git](https://git-scm.com/) and project management, so I'll avoid focusing on this part of package maintenance here. 
 What interests us for now is the *R* toolset for package creation, which some may already know: [`devtools`](https://devtools.r-lib.org/). 
 Maintained by the same team as the famous `tidyverse`, `devtools` is another meta-package regrouping all the necessary tools for package creation. 
 The current version includes:
@@ -43,9 +43,10 @@ It brings quite a lot of utilities for testing and deploying packages as well:
 - `rcmdcheck`, allowing to run *R* CMD check and reporting results
 
 As you can see, there is nearly everything one may ever need to deploy a development environment. 
-Because the `devtools` suite is developed and maintained by the same team as the [RStudio IDE]()^[
-    Meaning [Hadley Wickham](https://hadley.nz/), [Jim Hester](https://www.jimhester.com/), [Winston Chang](https://github.com/wch) and [Jennifer Bryan](https://jennybryan.org/)
-] it shines when coupled with this particular IDE. 
+Because the `devtools` suite is developed and maintained by the same team as the [RStudio IDE](https://www.rstudio.com/)^[
+Meaning [Hadley Wickham](https://hadley.nz/), [Jim Hester](https://www.jimhester.com/), [Winston Chang](https://github.com/wch) and [Jennifer Bryan](https://jennybryan.org/)
+] 
+it shines when coupled with this particular IDE. 
 
 Among external tools; I may name:
 

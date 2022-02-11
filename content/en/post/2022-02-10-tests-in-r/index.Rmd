@@ -215,7 +215,7 @@ test()
 ```
 
 One failed test would be detected, because the values do not match. 
-
+ 
 Once you become familiar with the test procedures setup, you may proceed with more complex tasks. 
 For example, it may be interesting to configure a *Continuous Integration* (CI) workflow to run all the test externally on a dedicated server. 
 

@@ -17,9 +17,9 @@ Obviously, *Python* has similar format ([`pymarkdown`](https://python-markdown.g
 Moreover, I'm far more familiar with *R* statistical libraries, [`tidyverse`](https://www.tidyverse.org/) suite and coding practices. 
 However, at the same time I need *Python* dependencies: the most developed *neural network* (NN) libraries are written in *Python* or have their main interface in *Python*. 
 For example, the well known [TensorFlow](https://www.tensorflow.org/) has a *Python* based backend. 
-
+ 
 The idea behind this post is to describe the possibilities to combine both *R* and *Python* in your workflow. 
-There will quite a lot of disjoined materials available on internet in this post, leaving not that much place for my personal contribution. 
+There is quite a lot of disjoined materials available on internet in this post, leaving not that much place for my personal contribution. 
 But I hope it might be useful for someone, and I expect to convert the results into a guide for the TER's and other courses I'm giving.
 
 
