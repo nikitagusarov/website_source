@@ -1,0 +1,348 @@
+---
+title: OOP in R
+author: 'Nikita Gusarov'
+date: '2022-02-12'
+slug: []
+categories: [Programming]
+tags: [Programming, R, OOP, Objects]
+featured_image: '/images/oop-0.png'
+description: ''
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>In previous publications we have seen how to create a package with <em>R</em>:
+(1) the project’s structure generation,
+(2) the unit tests and their automation and
+(3) the documentation management.
+Now its time to dive deeper into programming with <em>R</em>.
+Today we are going to explore how one can use <a href="https://en.wikipedia.org/wiki/Object-oriented_programming"><em>Object Oriented Programming</em></a> (OOP) paradigm in <em>R</em>.</p>
+<p>There exist multiple object types and programming conventions, each with a particular idea behind it.
+In this post we are going to explore their differences and see when each of them is more appropriate.</p>
+<div id="what-is-oop" class="section level2">
+<h2>What is OOP?</h2>
+<p>The first reference that comes in mind for discovering the OOP term definition is probably <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">this webpage</a>:</p>
+<blockquote>
+<p><strong>Object-oriented programming (OOP)</strong> is a programming paradigm based on the concept of “objects”, which can contain data and code:
+data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).</p>
+</blockquote>
+<p>One of the features of OOP approach is that the object’s methods (or procedures) can modify the object itself.</p>
+<p>The close alternatives to OOP are the <a href="https://en.wikipedia.org/wiki/Imperative_programming">imperative</a> and <a href="https://en.wikipedia.org/wiki/Procedural_programming">procedural</a> programming paradigms.
+Let’s see what are their features:</p>
+<blockquote>
+<p><strong>Imperative programming</strong> is a programming paradigm that uses <em>statements that change a program’s state</em>
+… an imperative program consists of commands for the computer to perform.</p>
+</blockquote>
+<blockquote>
+<p><strong>Procedural programming</strong> is a programming paradigm, derived from imperative programming, based on the concept of the <em>procedure call</em>.
+Procedures (a type of routine or subroutine) simply contain a series of computational steps to be carried out.</p>
+</blockquote>
+<p>Both of the paradigms are rather close.
+While the imperative programming focuses on describing how a program operates, the procedural counterpart goes further into detail.
+The OOP may be considered as even more advanced development of the procedural paradigm, where the objects and their methods may be used across different programs.</p>
+<p>In <em>R</em> the average user rarely goes further than simple <a href="https://en.wikipedia.org/wiki/Functional_programming">functional programming</a>.
+This programming paradigm opposes the common idea for previously described paradigms in assuming that the objects are immutable and the functions simply map the values to them:</p>
+<blockquote>
+<p><strong>Functional programming</strong> is a programming paradigm where programs are constructed by applying and composing functions.
+It is a declarative programming paradigm in which function definitions are trees of expressions that map values to other values, rather than a sequence of imperative statements which update the running state of the program.</p>
+</blockquote>
+<p>Once we’ve got at least some basic ideas about the different programming paradigms, let’s explore how we can implement at least several of them with <em>R</em>.</p>
+</div>
+<div id="what-are-available-alternatives" class="section level2">
+<h2>What are available alternatives?</h2>
+<p>There exist several object-oriented (OO) systems implemented within <em>R</em>.
+In all of them, a <em>class</em> determines the behaviour of <em>objects</em> depending on their <em>attributes</em> and their interactions with <em>other objects</em>.
+The <em>class</em> may also define some <em>methods</em> (functions), which behave differently depending on the <em>object</em>’s class.</p>
+<p>A good example of how it works are the default <em>R</em> functions (actually <em>methods</em>), that are known to anyone: <code>plot()</code> or <code>summary()</code>.
+As you might have notices, these functions provide different output depending on the input’s <code>class</code>.
+Many packages that introduce new objects into <em>R</em> add the support for these default methods to their custom classes.
+A more advanced reading material may be found <a href="http://adv-r.had.co.nz/OO-essentials.html">here</a>.</p>
+<p>The default <em>R</em> system is not exactly OO.
+But as everything in <em>R</em> is actually an object we can include it here.
+historically <em>R</em> was a language for statistical programming, which did not require a complete OOP support.
+Here it is, incorporating all the basic <em>R</em> objects:</p>
+<ul>
+<li><strong>Base Types</strong> uses the <code>C</code>-level types, that are then used by other OO systems.
+To manipulate these types one will have to know <code>C</code> language.</li>
+</ul>
+<p>In general, there exists 3(4) OO systems:</p>
+<ul>
+<li><strong>S3</strong>, which proposes a generic-function OO.
+This system is actually a minor to functional programming, because it uses <em>generic function</em> wrappers to decide which methods to call on a given object.</li>
+<li><strong>S4</strong> is a more formal extension to <strong>S3</strong>.
+It introduces the <em>formal class definition</em>, which brings clear class descriptions and inheritance.
+The <strong>S4</strong> system supports the multiple dispatch, allowing functions to select appropriate methods as in <strong>S3</strong>.</li>
+<li><strong>RC</strong> (or <strong>R5</strong>) is the first system to implement <em>message-passing OO</em> built on top of <strong>S4</strong>, which is more traditional for OOP.
+Here we can use <code>$</code> to separate objects and methods as <code>.</code> is used in <em>Python</em>.
+It’s equally the first system to introduce <em>mutable objects</em>, meaning the objects are modified in place, instead of the traditional <em>R</em> policy of <em>copy-on-modify</em>.
+This particular property makes this system particularly efficient when bringing memory efficiency into your code.</li>
+<li><a href="https://r6.r-lib.org/"><strong>R6</strong></a> (which superseeded <strong>RC</strong>) is an <em>encapsulated OOP</em> system for <em>R</em>.
+It is the closest to the traditional understanding of the classical OOP:
+the objects have reference semantics, there is inheritance between packages and classes have both public and private members.</li>
+</ul>
+<p>Now, once all the key OO systems are described, we can attempt to illustrate the differences on several examples.</p>
+<div id="s3-system" class="section level3">
+<h3>S3 system</h3>
+<p>The <strong>S3</strong> support is implemented in the core <em>R</em> and does not require any additional packages.
+Assuming we want to create an object, which will be used to describe individual for choice situations simulation, we can run:</p>
+<pre class="r"><code># Individual object
+ind = list(
+    characteristics = c(&quot;Age&quot;, &quot;Income&quot;),
+    values = c(30, 2.1)
+)
+# Assign class
+class(ind) = &quot;individual&quot;</code></pre>
+<p>Once our custom class assigned, we can add corresponding <em>method</em> to a <em>generic function</em> for our class:</p>
+<pre class="r"><code># Add summary method for generic function
+summary.individual = function(ind) {
+    for (i in seq_along(ind$characteristics)) {
+        cat(
+            &quot;Individual&#39;s &quot;, 
+            ind$characteristics[i],
+            &quot; is &quot;, 
+            ind$values[i],
+            &quot;\n&quot;
+        )
+    }
+}
+
+# Apply method to our S3 object
+summary(ind)</code></pre>
+<pre><code>## Individual&#39;s  Age  is  30 
+## Individual&#39;s  Income  is  2.1</code></pre>
+<p>Here we observe how the new method for our <code>individual</code> class was added to <code>summary()</code> default function.
+The same procedure can be applied to any function.</p>
+<p>Now we should make a little point about method inheritance.
+Imagine we redefine the class of our individual as follows:</p>
+<pre class="r"><code># Update class
+class(ind) = c(&quot;teacher&quot;, &quot;individual&quot;)</code></pre>
+<p>Now, when we will call a function on an object with several classes specified, <em>R</em> will search available methods for the given classes and choose one respecting their priority.
+Meaning that right now, as there exists no method for <code>teacher</code> class in <code>summary()</code>, <em>R</em> will fall back to a method for other available class <code>individual</code>:</p>
+<pre class="r"><code># Apply method to our S3 object
+summary(ind)</code></pre>
+<pre><code>## Individual&#39;s  Age  is  30 
+## Individual&#39;s  Income  is  2.1</code></pre>
+<p>After adding the respecting method for <code>teacher</code> class and re-execute the function:</p>
+<pre class="r"><code># Define another method
+summary.teacher = function(ind) {
+    for (i in seq_along(ind$characteristics)) {
+        cat(
+            &quot;The teacher&#39;s &quot;, 
+            ind$characteristics[i],
+            &quot; is &quot;, 
+            ind$values[i],
+            &quot;\n&quot;
+        )
+    }
+}
+
+# Apply method to our S3 object
+summary(ind)</code></pre>
+<pre><code>## The teacher&#39;s  Age  is  30 
+## The teacher&#39;s  Income  is  2.1</code></pre>
+</div>
+<div id="s4-system" class="section level3">
+<h3>S4 system</h3>
+<p>The <strong>S4</strong> system introduces a separate function for new <em>class</em> definition.
+Instead of simply assigning a class to an existing object, here we create a template for all other objects of the same class.
+Not only we define an object’s skeleton, but we define even the default values.
+For example:</p>
+<pre class="r"><code># Define S4 class
+individual_s4 = setClass(
+    # Define class name
+    &quot;individual_s4&quot;,
+    # Define contents
+    slots = c(
+        characteristics = &quot;character&quot;,
+        values = &quot;numeric&quot;
+    ),
+    # Define default values
+    prototype = list(
+        characteristics = c(&quot;Age&quot;, &quot;Income&quot;),
+        values = c(30, 2.1)
+    ),
+    # Validity check
+    validity = function(object) {
+        if (length(object$characteristics) != length(object$values)) {
+            return(&quot;The number of supplied values and characteristics do not match&quot;)
+        }
+        return(TRUE)
+    }
+)</code></pre>
+<p>To create a new object of just created class, we can run:</p>
+<pre class="r"><code># Create individual
+ind = individual_s4(); ind</code></pre>
+<pre><code>## An object of class &quot;individual_s4&quot;
+## Slot &quot;characteristics&quot;:
+## [1] &quot;Age&quot;    &quot;Income&quot;
+## 
+## Slot &quot;values&quot;:
+## [1] 30.0  2.1</code></pre>
+<p>Beware, that previously created methods for <code>summary()</code> function for <strong>S3</strong> class will no longer work on a newly created <strong>S4</strong> object.
+<strong>S4</strong> class uses <code>slots</code> instead of default <em>list within list</em> structure seen before, which makes it impossible to call <code>slots</code> using <code>$</code> operator.
+We will have to rewrite our method to support <strong>S4</strong> class:</p>
+<pre class="r"><code># Add summary method for generic function
+summary.individual_s4 = function(ind) {
+    for (i in seq_along(ind@characteristics)) {
+        cat(
+            &quot;Individual&#39;s &quot;, 
+            ind@characteristics[i],
+            &quot; is &quot;, 
+            ind@values[i],
+            &quot;\n&quot;
+        )
+    }
+}
+
+# Apply method to our S4 object
+summary(ind)</code></pre>
+<pre><code>## Individual&#39;s  Age  is  30 
+## Individual&#39;s  Income  is  2.1</code></pre>
+<p>To call slots of an object we can use either <code>slot()</code> function or an <code>@</code> operator.
+You can find some more information in <a href="https://data-flair.training/blogs/object-oriented-programming-in-r/">this blogpost</a>.</p>
+</div>
+<div id="rc-or-r5-system" class="section level3">
+<h3>RC (or R5) system</h3>
+<p>As it was previously stated, the main differences between <strong>R5</strong> classes and <strong>S3</strong> or <strong>S4</strong> ones are:</p>
+<ul>
+<li><strong>R5</strong> objects use message-passing OO</li>
+<li><strong>R5</strong> objects are mutable in place</li>
+</ul>
+<p>To create a new class in <strong>R5</strong> system we can use dedicated function:</p>
+<pre class="r"><code># Class creation in R5
+individual_r5 = setRefClass(
+    # Class name
+    &quot;individual_r5&quot;,
+    # Fields replace slots in R5
+    fields = list(
+        characteristics = &quot;character&quot;,
+        values = &quot;numeric&quot;
+    )
+)</code></pre>
+<p>Now let’s create a new individual with <strong>R5</strong> system:</p>
+<pre class="r"><code># Create new object
+ind = individual_r5$new(
+    characteristics = c(&quot;Age&quot;, &quot;Income&quot;),
+    values = c(30, 2.2)
+); ind</code></pre>
+<pre><code>## Reference class object of class &quot;individual_r5&quot;
+## Field &quot;characteristics&quot;:
+## [1] &quot;Age&quot;    &quot;Income&quot;
+## Field &quot;values&quot;:
+## [1] 30.0  2.2</code></pre>
+<p>Because the <strong>R5</strong> respects <code>$</code> operator by default, we would need to rewrite our method for summary, identical to the one made for <strong>S3</strong> class:</p>
+<pre class="r"><code># Add summary method for generic function
+summary.individual_r5 = function(ind) {
+    for (i in seq_along(ind$characteristics)) {
+        cat(
+            &quot;Individual&#39;s &quot;, 
+            ind$characteristics[i],
+            &quot; is &quot;, 
+            ind$values[i],
+            &quot;\n&quot;
+        )
+    }
+}
+
+# Apply method to our R5 object
+summary(ind)</code></pre>
+<pre><code>## Individual&#39;s  Age  is  30 
+## Individual&#39;s  Income  is  2.2</code></pre>
+<p>Alternatively, we can define a method directly within the class definition.
+To call such methods on object we would need a syntax statement extremely familiar to users of <em>Python</em>:</p>
+<pre class="r"><code># Add method to class
+individual_r5$methods(
+    summarize = function() {
+        for (i in seq_along(ind$characteristics)) {
+            cat(
+                ind$characteristics[i],
+                &quot; is &quot;, 
+                ind$values[i],
+                &quot;\n&quot;
+            )
+        }
+    }
+) 
+
+# Apply method
+ind$summarize()</code></pre>
+<pre><code>## Age  is  30 
+## Income  is  2.2</code></pre>
+<p>In <strong>R5</strong> there exist some common methods shared by all the objects created with <code>setRefClass()</code> function:</p>
+<ul>
+<li><code>object$copy()</code>, which creates a copy of an existing object</li>
+<li><code>object$filed()</code>, functioning identically to <code>slots()</code> in <strong>S4</strong> for assignment purposes</li>
+<li><code>object$import()</code> and <code>object$export()</code>, which allow to coerce objects into different classes</li>
+<li><code>object$initFields()</code></li>
+<li><code>object$callSuper()</code></li>
+</ul>
+<p>You can read more about the <strong>R5</strong> system in <a href="http://adv-r.had.co.nz/R5.html">this blogpost</a>.</p>
+</div>
+<div id="r6-system" class="section level3">
+<h3>R6 system</h3>
+<p><strong>R6</strong> OOP support is brought into <em>R</em> with a <a href="https://r6.r-lib.org/">separate package</a>.
+You can install it by running:</p>
+<pre class="r"><code># Install R6 dependencies
+install.packages(&quot;R6&quot;)</code></pre>
+<p>And then load it into the current environment:</p>
+<pre class="r"><code># Load library
+library(R6)</code></pre>
+<p>The <strong>R6</strong> system bring not only the additional feature similar to the more traditional OOP, but are lighter as well.
+Their implementation avoid some of the issues introduced by <strong>S4</strong> and <strong>R5</strong> (<strong>RC</strong>) systems.
+Among the main features authors state:</p>
+<ul>
+<li>Public and private methods</li>
+<li>Active bindings</li>
+<li>Inheritance (<em>superclasses</em>) which works across packages</li>
+</ul>
+<pre class="r"><code># Create individual class in R6 system
+individual_r6 = R6Class(
+    &quot;individual&quot;, 
+    public = list(
+        characteristics = NULL,
+        values = NULL,
+        # Initialisation to perform on object creation
+        initialize = function(
+            characteristics = NA, 
+            values = NA
+        ){
+            self$characteristics = characteristics
+            self$values = values
+        }
+    )
+)</code></pre>
+<p>The new objects of a given class are created identically to <strong>R5</strong> system:</p>
+<pre class="r"><code># Create new individual
+ind = individual_r6$new(
+    characteristics = c(&quot;Age&quot;, &quot;Income&quot;),
+    values = c(25, 1.5)
+); ind</code></pre>
+<pre><code>## &lt;individual&gt;
+##   Public:
+##     characteristics: Age Income
+##     clone: function (deep = FALSE) 
+##     initialize: function (characteristics = NA, values = NA) 
+##     values: 25 1.5</code></pre>
+<p><strong>R6</strong> keeps support for common <code>$</code> operator, which allows to declare methods as before:</p>
+<pre class="r"><code># Add summary method for generic function
+summary.individual_r6 = function(ind) {
+    for (i in seq_along(ind$characteristics)) {
+        cat(
+            &quot;Individual&#39;s &quot;, 
+            ind$characteristics[i],
+            &quot; is &quot;, 
+            ind$values[i],
+            &quot;\n&quot;
+        )
+    }
+}
+
+# Apply method to our R6 object
+summary(ind)</code></pre>
+<pre><code>## Individual&#39;s  Age  is  25 
+## Individual&#39;s  Income  is  1.5</code></pre>
+<p>Alternatively it’s possible to define active fields within our class, which execute a function when a field is called.
+But it’s probably best to explore all those additional functionalities of <strong>R6</strong> system from <a href="https://r6.r-lib.org/articles/Introduction.html">more reliable sources</a>.</p>
+</div>
+</div>
