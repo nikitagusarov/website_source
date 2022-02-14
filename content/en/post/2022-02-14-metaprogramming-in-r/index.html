@@ -1,0 +1,188 @@
+---
+title: Metaprogramming in R
+author: 'Nikita Gusarov'
+date: '2022-02-14'
+slug: []
+categories: [Programming]
+tags: [Programming, R, Metaprogramming, devtools]
+featured_image: '/images/metapr-0.png'
+description: ''
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>While reworking the <em>DCE Simulation</em> package for my Thesis, I’ve discovered one more interesting topic to speak about.
+We have already seen how to create a package, write documentation and implement OOP in <em>R</em>.
+Now it comes the time of <em>Metaprogramming</em>.
+But don’t be afraid of this unfamiliar term, we are going to see that the concepts behind it are fairly simple.</p>
+<p>Most of the materials presented are adopted from <a href="https://adv-r.hadley.nz/meta-big-picture.html">this mazing book</a> about advanced <em>R</em>.
+My task here is mostly the vulgarisation of the material.</p>
+<div id="metaprogramming" class="section level2">
+<h2>Metaprogramming</h2>
+<p>What is <em>metaprogramming</em> exactly?
+Because in this post we attempt to make things as accessible as possible, let’s take a definition <a href="https://en.wikipedia.org/wiki/Metaprogramming">from here</a>:</p>
+<blockquote>
+<p><strong>Metaprogramming</strong> is a programming technique in which computer programs have the ability to <em>treat other programs as their data</em>.
+It means that a program can be designed to read, generate, analyse or transform other programs, and even modify itself while running.</p>
+</blockquote>
+<p>At this point you probably ask yourself why ever we may need this functionality?
+The answer is quite simple: we develop an OOP based simulation package.
+It means that such paradigm allow us to flexibly create objects (ex: artificial individuals) using <em>metaprogramming</em>.
+This way we no longer need generating our “<em>robots</em>” with some sort of wrapping functions and directly assigning the characteristics within our population.
+Instead we would be able to create flexible classes of individuals described by the <em>data generation procedures</em> instead of the <em>characteristics</em> alone.</p>
+<blockquote>
+<p>Generic programming invokes a metaprogramming facility within a language by allowing one to write code without the concern of specifying data types since they can be supplied as parameters when used.</p>
+</blockquote>
+<p>This is exactly the feature we need for our simulation package’s user interface.</p>
+</div>
+<div id="what-do-we-need" class="section level2">
+<h2>What do we need?</h2>
+<p>The main dependency for our exercise today is the <a href="https://rlang.r-lib.org/"><code>rlang</code></a> package.
+Generally, it adds two frameworks to the base <em>R</em>:</p>
+<ul>
+<li><code>tidy eval</code>, a <em>data-masking</em> framework, which is heavily used by <code>tidyverse</code> suite</li>
+<li><code>rlang errors</code>, a toolset for error signalling and reflection</li>
+</ul>
+<p>Obviously, it’s the first feature that we need the most.
+If you already have <code>tidyverse</code> installed on your machine then it means that you already have <code>rlang</code>.
+We should only attach it to our active environment:</p>
+<pre class="r"><code># Load dependecies
+library(rlang)</code></pre>
+</div>
+<div id="working-with-rlang" class="section level2">
+<h2>Working with <code>rlang</code></h2>
+<p>There exist several key concepts to keep in mind, when attempting to use <em>metaprogramming</em> in <em>R</em>.</p>
+<div id="defusion" class="section level3">
+<h3>Defusion</h3>
+<p>The first concept we should explore is the <em>defused expression</em>.
+As it’s described on the <a href="">official package’s website</a>:</p>
+<blockquote>
+<p>(The) <strong>defused expressions</strong> can be thought of as blueprints or recipes for computing values.</p>
+</blockquote>
+<p>Let’s take as an example some blatantly simple expression:</p>
+<pre class="r"><code># Let&#39;s create some data
+x = c(1, 3, 5)
+
+# Expression
+mean(x)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>As expected, <em>R</em> will calculate the result and display it for us.
+Now we store the same sequence as an <em>expression</em>:</p>
+<pre class="r"><code># Store our expression
+meanx = expr(mean(x)); meanx</code></pre>
+<pre><code>## mean(x)</code></pre>
+<p>What has just happened is that <em>R</em> stored the entire expression in the memory without executing it.
+It means that from now on we can call this expression by addressing the object it was stored in:</p>
+<pre class="r"><code># Calculate mean of x
+eval(meanx)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code># Recreate x and rerun calculations
+x = c(2, 4, 6); eval(meanx)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>As you can notice, reevaluating the expression after data recreation affects the result.
+For now it may look similar to writing a custom function to run over the data, but in fact the scope of usability differs a lot between two.
+In particular, you can see some advantages of the <em>defused expressions</em> by using them to wrap the argument within function.</p>
+<p>At this pint we should understand how <code>enexpr()</code> function works.
+It is required to convert arguments passed to a function into <code>expr()</code> object, to interpret the user input as an expression.<br />
+For example, let’s create a function which simulates 100 observation of given law and then calculates the mean (yes, it’s quite useless as function, but it’s good for exercise):</p>
+<pre class="r"><code># Fuction creation
+mean_rand = function(law = rnorm(n, mean = 0, sd = 1)) {
+    # Number of observatoins
+    n = 100
+    # Generate vector
+    x = eval(enexpr(law))
+    # Calculate mean
+    mean(x)
+}
+
+# Run function with default args
+mean_rand()</code></pre>
+<pre><code>## [1] -0.1504798</code></pre>
+<p>An interesting feature to add to the above example is the possibility to avoid specifying the <code>n</code> argument.
+This is possible, because we can modify our saved expressions as any other <em>R</em> object.
+Meaning we can run:</p>
+<pre class="r"><code># Fuction creation
+mean_rand = function(law = rnorm(mean = 0, sd = 1)) {
+    # Number of observatoins
+    n = 100
+    # Add n declaration ot law
+    law = enexpr(law); law$n = n
+    # Generate vector
+    x = eval(law)
+    # Calculate mean
+    mean(x)
+}
+
+# Run function for exponential law with &#39;rate = 2&#39;
+mean_rand(rexp(rate = 2))</code></pre>
+<pre><code>## [1] 0.5072285</code></pre>
+<p>This particular feature allow to make your functions more <em>user friendly</em>.
+It’s equally possible to modify the expressions arguments by position using <code>[[</code> syntax.</p>
+</div>
+<div id="data-masking-injection-and-embracing" class="section level3">
+<h3>Data-masking (<em>injection</em> and <em>embracing</em>)</h3>
+<p>At this point it is important to speak about the <em>data-masking</em> functionality introduced by <code>rlang</code> package.
+As stated by <a href="https://rlang.r-lib.org/reference/topic-data-mask.html">package’s authors</a>:</p>
+<blockquote>
+<p><strong>Data-masking</strong> is a distinctive feature of R whereby programming is performed directly on a data set, with columns defined as normal objects.</p>
+</blockquote>
+<p>Let’s use the default <code>mtcars</code> dataset for illustration.
+First we use the standard programming style, typically used for simple data analysis:</p>
+<pre class="r"><code># The default style (unmasked programming)
+var(mtcars$mpg + mtcars$qsec)</code></pre>
+<pre><code>## [1] 48.53557</code></pre>
+<p>Now let’s see the approach with <em>data-masking</em>:</p>
+<pre class="r"><code># Data masking
+with(
+    mtcars,
+    var(mpg + qsec)
+)</code></pre>
+<pre><code>## [1] 48.53557</code></pre>
+<p>At first it seems as rather uncomfortable way to work (the function <code>with()</code> exists in <code>base</code> <em>R</em> since 2001).
+But it becomes more convenient once you start sing special operators <code>{{}}</code> (<em>embracing operator</em>) and <code>!!</code> (<em>injection operator</em>).
+What do these operators do exactly?</p>
+<ul>
+<li><strong>Injection</strong> (or <em>quasiquotation</em>, <code>!!</code>) allows you to modify parts of a program.
+Technically it’s a wrapper around <em>defused code</em> specifically designed for usage with <code>data.frame</code> objects.</li>
+<li><strong>Embracing</strong> (<code>{{}}</code>) is a further extension of the <em>injection</em>.
+In fact it combines both <code>enquo()</code> function with <em>injection</em> operator (<code>!!</code>).</li>
+</ul>
+<p>Because it’s the first time you see the <code>enquo()</code> function
+(or <code>enquos()</code>, which is a vectorised version of the former),
+it’s time to precise that it serves for <em>code defusal</em>.
+What is the difference with <code>expr()</code> and <code>eval()</code> one may ask.
+The <code>expr()</code> function creates an object of type <code>call</code>, which can be then evaluated using <code>eval()</code>.
+The <code>enquo()</code>, creates a special object of type <code>quosure</code>.
+In short, as described in <a href="https://rlang.r-lib.org/reference/topic-quosure.html">the documentation</a>:</p>
+<blockquote>
+<p>A <strong>quosure</strong> is a special type of defused expression that keeps track of the original context the expression was written in.</p>
+</blockquote>
+<p>Let’s see how <em>injection</em> and <em>embracing</em> work before proceeding with <code>quosure</code> class description.
+The first option is to create a <code>quosure</code> and the inject it into our code:</p>
+<pre class="r"><code># Injection inside function
+col_mean = function(data, arg) {
+    # Convert argument to quosure
+    arg = enquo(arg)
+    # Get mean
+    x = dplyr::select(data, !!arg)[,1]; mean(x)
+}
+
+# Test on mtcars
+col_mean(mtcars, mpg)</code></pre>
+<pre><code>## [1] 20.09062</code></pre>
+<p>To simplify the procedure, we can directly inject the argument using <em>embracing</em>:</p>
+<pre class="r"><code># Injection inside function
+col_mean = function(data, arg) {
+    # Get mean
+    x = dplyr::select(data, {{ arg }})[,1]; mean(x)
+}
+
+# Test on mtcars
+col_mean(mtcars, mpg)</code></pre>
+<pre><code>## [1] 20.09062</code></pre>
+<p>As mentioned before, there are some differences between <code>expression</code> and <code>quosure</code> objects.
+The <code>quosure</code> class contains both the information about the <em>expression</em> to be executed and the <em>environment</em> reserved for this expression.
+The later adds some more complexity and features to our code, because <em>environment</em> indicates where all the private functions of your package are defined.</p>
+</div>
+</div>

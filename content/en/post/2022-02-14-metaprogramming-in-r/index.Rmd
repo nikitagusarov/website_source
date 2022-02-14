@@ -1,0 +1,221 @@
+---
+title: Metaprogramming in R
+author: 'Nikita Gusarov'
+date: '2022-02-14'
+slug: []
+categories: [Programming]
+tags: [Programming, R, Metaprogramming, devtools]
+featured_image: '/images/metapr-0.png'
+description: ''
+---
+
+
+
+While reworking the *DCE Simulation* package for my Thesis, I've discovered one more interesting topic to speak about. 
+We have already seen how to create a package, write documentation and implement OOP in *R*. 
+Now it comes the time of *Metaprogramming*. 
+But don't be afraid of this unfamiliar term, we are going to see that the concepts behind it are fairly simple.
+
+Most of the materials presented are adopted from [this mazing book](https://adv-r.hadley.nz/meta-big-picture.html) about advanced *R*. 
+My task here is mostly the vulgarisation of the material. 
+
+
+
+## Metaprogramming 
+
+What is *metaprogramming* exactly? 
+Because in this post we attempt to make things as accessible as possible, let's take a definition [from here](https://en.wikipedia.org/wiki/Metaprogramming):
+
+> **Metaprogramming** is a programming technique in which computer programs have the ability to *treat other programs as their data*. 
+> It means that a program can be designed to read, generate, analyse or transform other programs, and even modify itself while running.
+
+At this point you probably ask yourself why ever we may need this functionality? 
+The answer is quite simple: we develop an OOP based simulation package. 
+It means that such paradigm allow us to flexibly create objects (ex: artificial individuals) using *metaprogramming*. 
+This way we no longer need generating our "*robots*" with some sort of wrapping functions and directly assigning the characteristics within our population. 
+Instead we would be able to create flexible classes of individuals described by the *data generation procedures* instead of the *characteristics* alone. 
+
+> Generic programming invokes a metaprogramming facility within a language by allowing one to write code without the concern of specifying data types since they can be supplied as parameters when used. 
+
+This is exactly the feature we need for our simulation package's user interface. 
+
+## What do we need?
+
+The main dependency for our exercise today is the [`rlang`](https://rlang.r-lib.org/) package. 
+Generally, it adds two frameworks to the base *R*:
+
+- `tidy eval`, a *data-masking* framework, which is heavily used by `tidyverse` suite
+- `rlang errors`, a toolset for error signalling and reflection
+
+Obviously, it's the first  feature that we need the most. 
+If you already have `tidyverse` installed on your machine then it means that you already have `rlang`. 
+We should only attach it to our active environment:
+
+```{r rlang}
+# Load dependecies
+library(rlang)
+```
+
+## Working with `rlang`
+
+There exist several key concepts to keep in mind, when attempting to use *metaprogramming* in *R*.
+
+### Defusion
+
+The first concept we should explore is the *defused expression*. 
+As it's described on the [official package's website]():
+
+> (The) **defused expressions** can be thought of as blueprints or recipes for computing values.
+
+Let's take as an example some blatantly simple expression: 
+
+```{r expr_0}
+# Let's create some data
+x = c(1, 3, 5)
+
+# Expression
+mean(x)
+```
+
+As expected, *R* will calculate the result and display it for us. 
+Now we store the same sequence as an *expression*:
+
+```{r expr_1}
+# Store our expression
+meanx = expr(mean(x)); meanx
+```
+
+What has just happened is that *R* stored the entire expression in the memory without executing it. 
+It means that from now on we can call this expression by addressing the object it was stored in: 
+
+```{r expr_2}
+# Calculate mean of x
+eval(meanx)
+
+# Recreate x and rerun calculations
+x = c(2, 4, 6); eval(meanx)
+```
+
+As you can notice, reevaluating the expression after data recreation affects the result. 
+For now it may look similar to writing a custom function to run over the data, but in fact the scope of usability differs a lot between two. 
+In particular, you can see some advantages of the *defused expressions* by using them to wrap the argument within function. 
+
+At this pint we should understand how `enexpr()` function works. 
+It is required to convert arguments passed to a function into `expr()` object, to interpret the user input as an expression.  
+For example, let's create a function which simulates 100 observation of given law and then calculates the mean (yes, it's quite useless as function, but it's good for exercise):
+
+```{r enexpr_0}
+# Fuction creation
+mean_rand = function(law = rnorm(n, mean = 0, sd = 1)) {
+    # Number of observatoins
+    n = 100
+    # Generate vector
+    x = eval(enexpr(law))
+    # Calculate mean
+    mean(x)
+}
+
+# Run function with default args
+mean_rand()
+```
+
+An interesting feature to add to the above example is the possibility to avoid specifying the `n` argument. 
+This is possible, because we can modify our saved expressions as any other *R* object. 
+Meaning we can run:
+
+```{r expr_3}
+# Fuction creation
+mean_rand = function(law = rnorm(mean = 0, sd = 1)) {
+    # Number of observatoins
+    n = 100
+    # Add n declaration ot law
+    law = enexpr(law); law$n = n
+    # Generate vector
+    x = eval(law)
+    # Calculate mean
+    mean(x)
+}
+
+# Run function for exponential law with 'rate = 2'
+mean_rand(rexp(rate = 2))
+```
+
+This particular feature allow to make your functions more *user friendly*. 
+It's equally possible to modify the expressions arguments by position using `[[` syntax. 
+
+### Data-masking (*injection* and *embracing*)
+
+At this point it is important to speak about the *data-masking* functionality introduced by `rlang` package. 
+As stated by [package's authors](https://rlang.r-lib.org/reference/topic-data-mask.html):
+
+> **Data-masking** is a distinctive feature of R whereby programming is performed directly on a data set, with columns defined as normal objects.
+
+Let's use the default `mtcars` dataset for illustration. 
+First we use the standard programming style, typically used for simple data analysis:
+
+```{r dm_0}
+# The default style (unmasked programming)
+var(mtcars$mpg + mtcars$qsec)
+```
+
+Now let's see the approach with *data-masking*:
+
+```{r dm_1}
+# Data masking
+with(
+    mtcars,
+    var(mpg + qsec)
+)
+```
+
+At first it seems as rather uncomfortable way to work (the function `with()` exists in `base` *R* since 2001). 
+But it becomes more convenient once you start sing special operators `{{}}` (*embracing operator*) and `!!` (*injection operator*). 
+What do these operators do exactly?
+
+- **Injection** (or *quasiquotation*, `!!`) allows you to modify parts of a program. 
+Technically it's a wrapper around *defused code* specifically designed for usage with `data.frame` objects. 
+- **Embracing** (`{{}}`) is a further extension of the *injection*. 
+In fact it combines both `enquo()` function with *injection* operator (`!!`). 
+
+Because it's the first time you see the `enquo()` function 
+(or `enquos()`, which is a vectorised version of the former), 
+it's time to precise that it serves for *code defusal*. 
+What is the difference with `expr()` and `eval()` one may ask. 
+The `expr()` function creates an object of type `call`, which can be then evaluated using `eval()`. 
+The `enquo()`, creates a special object of type `quosure`. 
+In short, as described in [the documentation](https://rlang.r-lib.org/reference/topic-quosure.html):
+
+> A **quosure** is a special type of defused expression that keeps track of the original context the expression was written in.
+
+Let's see how *injection* and *embracing* work before proceeding with `quosure` class description. 
+The first option is to create a `quosure` and the inject it into our code:
+
+```{r injection}
+# Injection inside function
+col_mean = function(data, arg) {
+    # Convert argument to quosure
+    arg = enquo(arg)
+    # Get mean
+    x = dplyr::select(data, !!arg)[,1]; mean(x)
+}
+
+# Test on mtcars
+col_mean(mtcars, mpg)
+```
+
+To simplify the procedure, we can directly inject the argument using *embracing*:
+
+```{r embracing}
+# Injection inside function
+col_mean = function(data, arg) {
+    # Get mean
+    x = dplyr::select(data, {{ arg }})[,1]; mean(x)
+}
+
+# Test on mtcars
+col_mean(mtcars, mpg)
+```
+
+As mentioned before, there are some differences between `expression` and `quosure` objects. 
+The `quosure` class contains both the information about the *expression* to be executed and the *environment* reserved for this expression. 
+The later adds some more complexity and features to our code, because *environment* indicates where all the private functions of your package are defined. 
