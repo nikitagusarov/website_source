@@ -92,7 +92,7 @@ sudo echo "auth sufficient pam_u2f.so nullok cue interactive" > /etc/pam.d/u2f-w
 
 Finally, we can use these PAM rules to modify the existing system configuration. 
 For example, I've preferred to configure a password-less `sudo` on my personal machine in order not to retype my password on every occasion. 
-To do so, I've added `auth include u2f-required` to `/etc/pam.d/sudo` file. 
+To do so, I've added `auth include u2f-weak` to `/etc/pam.d/sudo` file. 
 
 > Because all the above configuration already requires `sudo` privileges for set-up, it is a good idea to benefit from it for tests in case of miss-configuration. 
 > Just open a new terminal session and attempt to use something with `sudo` (ex: `sudo ls`).
