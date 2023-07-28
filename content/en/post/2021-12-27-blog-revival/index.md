@@ -21,7 +21,7 @@ I hope that the next several months will be marked by an uptake in the activity 
 
 ## Some background
 
-The last I've wrote something in this blog was yet in september. 
+The last I've wrote something in this blog was yet in September. 
 For the last publications I've had some difficulties to keep inventing topics which might be potentially interesting for anyone visiting this page, as well as for myself. 
 The need to keep writing something simple clashed with my personal reticence to write anything which has night to no added value. 
 As one can observe in the history of the publications, I've started with some intermediate level stuff on LaTeX and R usage. 
@@ -56,6 +56,6 @@ No more I'll attempt to keep in line with some imaginary *standards* of *interes
 For example, some tips and tricks one can do with help of R software, or some reminders on how to do something in LaTeX. 
 This will result in somewhat heterogeneous level of publications, but it will probably keep a uniform path if someone would like to follow my blog. 
 
-What is more, I wold like to add some new topics to my blog contents. 
+What is more, I would like to add some new topics to my blog contents. 
 Among them, my recent (not so recent in fact) interest in UNIX operating systems and FOS Software. 
 During the last year I've nearly fully switched to the FOSS ecosystem and I would definitely like to document some of my experience.
