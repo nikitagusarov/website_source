@@ -5,8 +5,8 @@ theme: gohugo-theme-ananke
 resourceDir: resources
 publishDir: public
 DefaultContentLanguage: en
-SectionPagesMenu: main
-Paginate: 3
+# SectionPagesMenu: main
+Paginate: 9
 googleAnalytics: ''
 enableRobotsTXT: yes
 languages:
@@ -14,6 +14,20 @@ languages:
     contentDir: content/en
     title: Nikita Gusarov
     weight: 1
+    menu:
+      main:
+        - name: home
+          url: /
+          weight: 0
+        - name: about
+          url: /about
+          weight: 0
+        - name: activity
+          url: /activity
+          weight: 2
+        - name: contact
+          url: /contact
+          weight: 3
 sitemap:
   changefreq: monthly
   filename: sitemap.xml

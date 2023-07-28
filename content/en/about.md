@@ -2,7 +2,7 @@
 title: About
 description: Some information about me and my projects
 featured_image: images/default_x220.png
-menu: main
+menu: about
 type: page
 ---
 
@@ -17,5 +17,5 @@ type: page
 * Preference Studies
 * Econometrics
 * Machine Learning (ML)
-* Workflow Manpagement and Automation
+* Workflow Management and Automation
 * R programming

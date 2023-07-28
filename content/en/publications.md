@@ -2,7 +2,7 @@
 title: Publications
 # description: Publications and other works
 featured_image: images/default_x220.png
-menu: main
+menu: activity
 type: page
 ---
 
