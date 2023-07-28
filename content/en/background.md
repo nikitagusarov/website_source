@@ -2,7 +2,7 @@
 title: Background
 description: Curriculum Vitae
 featured_image: images/default_x220.png
-menu: main
+menu: background
 type: page
 ---
 
@@ -24,6 +24,20 @@ For a more detailed information please see my CV:
 
 - <B><A HREF="/docs/cv_classic.pdf">Classic version (EN)</A></B>
 - <B><A HREF="/docs/cv_academique.pdf">Academic version (FR)</A></B>
+
+
+
+---
+
+## Centres of interest
+
+* Individual Behaviour Modelling and Consumer Choice Analysis
+* Discrete Choice Modelling (DCM) and Classification
+* Preference Studies
+* Econometrics
+* Machine Learning (ML)
+* Workflow Management and Automation
+* R programming
 
 
 

@@ -16,18 +16,26 @@ languages:
     weight: 1
     menu:
       main:
-        - name: home
-          url: /
-          weight: 0
-        - name: about
+        - name: About
           url: /about
           weight: 0
-        - name: activity
-          url: /activity
-          weight: 2
-        - name: contact
+        - name: Background
+          url: /background
+          weight: 1
+        - name: Contact
           url: /contact
           weight: 3
+        - name: Activities
+          weight: 4
+        # - name: Development
+        #   url: /development
+        #   weight: 0
+        # - name: Publications
+        #   url: /publications
+        #   weight: 0
+        # - name: Talks
+        #   url: /talks
+        #   weight: 0
 sitemap:
   changefreq: monthly
   filename: sitemap.xml

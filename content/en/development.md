@@ -1,7 +1,9 @@
 ---
 title: Development
 featured_image: images/default_x220.png
-menu: activity
+menu: 
+  main:
+    parent: activities
 type: page
 ---
 
