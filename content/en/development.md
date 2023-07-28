@@ -3,7 +3,7 @@ title: Development
 featured_image: images/default_x220.png
 menu: 
   main:
-    parent: activities
+    parent: Activities
 type: page
 ---
 
