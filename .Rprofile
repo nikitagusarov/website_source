@@ -19,7 +19,13 @@ options(
   blogdown.method = 'html'
 )
 
-# fix Hugo version
-options(blogdown.hugo.version = "0.87.0")
+# Fix Hugo version
+options(
+  blogdown.hugo.version = "0.87.0"
+)
 
-# Add comment
+# Add content to post body
+options(
+  blogdown.author = "Nikita Gusarov",
+  blogdown.subdir = "en/post"
+)
