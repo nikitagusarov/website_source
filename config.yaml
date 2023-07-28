@@ -20,10 +20,14 @@ languages:
           identifier: background
           url: /background
           weight: 10
+        - name: Posts
+          identifier: post
+          url: /post
+          weight: 40
         - name: Contact
           identifier: contact
           url: /contact
-          weight: 40
+          weight: 50
         # - name: Activities
         #   identifier: activities
         #   url: /activities

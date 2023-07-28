@@ -47,31 +47,31 @@ For a more detailed information please see my CV:
 
 **2020 - now**
 : Grenoble Applied Economics Lab (GAEL), Grenoble Optimisation and Operations Research Lab (G-SCOP), University Grenoble Alpes (UGA), Grenoble INP
-: *Exploration of Discrete choice Models performance metrics*
-: *Data analysis procedures performance comparison framework creation*
-: *Model performance assessment and model selection*
-: *Discrete choice modelling and classification for mode choice analysis and general consumer behaviour exploration*
+: - *Exploration of Discrete choice Models performance metrics*
+: - *Data analysis procedures performance comparison framework creation*
+: - *Model performance assessment and model selection*
+: - *Discrete choice modelling and classification for mode choice analysis and general consumer behaviour exploration*
 
 **2022 - 2023**
 : Data Intelligence Laboratory (LID), Polytechnic de Montréal
-: *Unstructured interviews on data analysis procedures in scientific community and industries*
-: *Web-scrapping and automated data collection*
+: - *Unstructured interviews on data analysis procedures in scientific community and industries*
+: - *Web-scrapping and automated data collection*
 
 **2020**
 : GAEL, Grenoble Informatics Laboratory (LIG), Multidisciplinary Institute in Artificial Intelligence (MIAI), GDR MADICS: Platform, UGA
-: *Consumer Choice and Preference Modelling with Discrete Choice Models*
-: *Classification methods for individual choice analysis*
-: *Machine Learning for economics and interpretable consumer behaviour analysis*
+: - *Consumer Choice and Preference Modelling with Discrete Choice Models*
+: - *Classification methods for individual choice analysis*
+: - *Machine Learning for economics and interpretable consumer behaviour analysis*
 
 **2019**
 : GAEL, RESMOB IDEX, UGA
-: *Identification of network effects with Discrete Choice Models for individual decision making*
-: *Network and spatial classification and choice models*
+: - *Identification of network effects with Discrete Choice Models for individual decision making*
+: - *Network and spatial classification and choice models*
 
 **2018**
 : Analytics Centre of Russian Federation Government
-: *Industry trends macroeconomic analysis*
-: *Exchange rates macroeconomic trends predictions*
+: - *Industry trends macroeconomic analysis*
+: - *Exchange rates macroeconomic trends predictions*
 
 
 
