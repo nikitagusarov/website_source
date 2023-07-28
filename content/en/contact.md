@@ -7,7 +7,9 @@ type: page
 # omit_header_text: true
 ---
 
-To contact me you may find me in [Matrix](https://matrix.io/#/@ng19es:matrix.org) and [VKontakte](https://vk.com/id38612036).
-Or you may just use the contact form below:
+To contact me you may find me in [Matrix](https://matrix.io/#/@ng19es:matrix.org) and [Telegram](https://t.me/n69gse5).
+Or you can always reach me by mail [ngusarov.research@gmail.com](mailto:ngusarov.research@gmail.com).
 
-{{< form-contact action="https://formspree.io/f/mqkwgvbp"  >}}
+<!-- Or you may just use the contact form below (assuming it's still functional): -->
+
+<!-- {{< form-contact action="https://formspree.io/f/mqkwgvbp" >}} -->
