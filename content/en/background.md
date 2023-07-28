@@ -29,20 +29,6 @@ For a more detailed information please see my CV:
 
 ---
 
-## Centers of interest
-
-* Individual Behaviour Modelling and Consumer Choice Analysis
-* Discrete Choice Modelling (DCM) and Classification
-* Preference Studies
-* Econometrics
-* Machine Learning (ML)
-* Workflow Managment and Automation
-* R programming
-
-
-
----
-
 ## Professional experience
 
 **2020 - now**
@@ -50,18 +36,18 @@ For a more detailed information please see my CV:
 : *Exploration of Discrete choice Models performance metrics*
 : *Data analysis procedures performance comparison framework creation*
 : *Model performance assessment and model selection*
-: *Discrete choice modelling and classification for mode choice analysis and general consumer behavour exploartion*
+: *Discrete choice modelling and classification for mode choice analysis and general consumer behaviour exploration*
 
 **2022 - 2023**
 : Data Intelligence Laboratory (LID), Polytechnic de Montréal
 : *Unstructured interviews on data analysis procedures in scientific community and industries*
-: *Web-scrapping and automated data colelction*
+: *Web-scrapping and automated data collection*
 
 **2020**
 : GAEL, Grenoble Informatics Laboratory (LIG), Multidisciplinary Institute in Artificial Intelligence (MIAI), GDR MADICS: Platform, UGA
 : *Consumer Choice and Preference Modelling with Discrete Choice Models*
 : *Classification methods for individual choice analysis*
-: *Machine Learning for economics and interpretable cosumer behaviour analysis*
+: *Machine Learning for economics and interpretable consumer behaviour analysis*
 
 **2019**
 : GAEL, RESMOB IDEX, UGA
