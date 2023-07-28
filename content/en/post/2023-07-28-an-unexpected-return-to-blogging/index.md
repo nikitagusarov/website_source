@@ -24,4 +24,4 @@ What is more, the terribly organised VISA issuing procedure has further impacted
 But this is a story for another time. 
 
 Now I'll attempt to gradually retake control over my blog and start posting some new materials. 
-Stay tuned.
+Stay tuned!
