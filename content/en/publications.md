@@ -12,21 +12,31 @@ type: page
 
 ## Working papers and Conference proceedings
 
+**Forthcoming**
+: Nikita Gusarov, Maria Victoria Hernandez Marquina, Iragaël Joly, Marie-Anne Le Dain and Peggy Zwolinski, *TBA*.
+  "<B><A HREF="/docs/NA">Managerial preferences in strategic partner selection in Circular Supply Chain (CSC).</A></B>"
+  *Working Paper*, Ongoing research
+
 **2023**
 : Maria Victoria Hernandez Marquina, Nikita Gusarov, Iragaël Joly, Marie-Anne Le Dain and Peggy Zwolinski, 2023.
-  "<B><A HREF="/docs/NA">Managerial preferences in strategic partner selection in Circular Supply Chain (CSC)</A></B>."
+  "<B><A HREF="/docs/NA">Social Exchange Theory (SET) and its impacts on Circular Supply Chain (CSC) performance.</A></B>"
   *Working Paper*, Ongoing research
 : Nikita Gusarov, 2023.
   "<B><A HREF="/docs/NA">Sample size and balance impacts in commute choice analysis: Willingness to pay elicitation task</A></B>."
-  *Working Paper*, WCTRS-Y 2023, *Unattended for VISA reasons*
+  *Working Paper*, WCTRS-Y 2023 (*unattended for VISA reasons*)
 : Nikita Gusarov, Iragaël Joly and Pierre Lemaire, 2023.
   "<B><A HREF="/docs/report_itea_apollo.pdf">Willingness to pay quality estimates in commute mode choice: Model performance comparison under sample size and balance impacts</A></B>."
   *Working Paper*, ITEA 2023
 
+**2021**
+: Antoine Dubois, Nikita Gusarov and Iragaël Joly, 2021.
+  "<B><A HREF="/docs/NA">Discrete Choice simulation toolset with `R`.</A></B>"
+  *Paper Proposal*, ABS conference.
+
 **2020**
 : Nikita Gusarov, Amirreza Talebijamalabad and Iragaël Joly, 2020.
-  "<B><A HREF="https://ideas.repec.org/p/hal/wpaper/hal-03019739.html">Exploration of model performances in the presence of heterogeneous preferences and random effects utilities awareness</A></B>."
-  *Working Paper:* `hal-03019739`, HAL.
+  "<B><A HREF="/docs/NA">Exploration of model performances in the presence of heterogeneous preferences and random effects utilities awareness</A></B>."
+  *Working Paper,* DA2PL 2020, (*also avilable on HAL:* [`hal-03019739`](https://ideas.repec.org/p/hal/wpaper/hal-03019739.html))
 
 
 
@@ -68,12 +78,20 @@ type: page
 
 ---
 
-## Other works
+## Other works and documents
 
-**202
+**2022**
+: Nikita Gusarov,
+  "<B><A HREF="/docs/NA">Neural Networks and interpretable Machine Learning for Discrete Choice Modelling.</A></B>"
+
+**2021**
+: Nikita Gusarov,
+  "<B><A HREF="/docs/NA">On Independence of Irrelevant Alternatives (IIA) hypothesis testing and importance.</A></B>"
 
 **2020**
-: Nikita Gusarov, Tom Viellescazes, "<B><A HREF="/docs/mobility.pdf">Etude des facteurs associés à l’usage fréquent des transports en commun urbain</A></B>"
+: Nikita Gusarov and Tom Viellescazes, 
+  "<B><A HREF="/docs/mobility.pdf">Etude des facteurs associés à l’usage fréquent des transports en commun urbain.</A></B>"
 
 **2019**
-: Arnaud Blanc, Nikita Gusarov and Sasha Picon "<B><A HREF="/docs/pesticides.pdf">Etude des effets des pesticides sur le marché des vins de table</A></B>"
+: Arnaud Blanc, Nikita Gusarov and Sasha Picon,
+  "<B><A HREF="/docs/pesticides.pdf">Etude des effets des pesticides sur le marché des vins de table.</A></B>"
